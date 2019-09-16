@@ -10,7 +10,8 @@ const bot = linebot({
 function learn(msg){
     if(msg.substr(0,4)=='學說話;'){
         let received_text  = msg.slice(4)
-        let semicolon_index = received_text.index(';')
+        console.log('received_text=',received_text)
+        let semicolon_index = received_text.indexOf(';')
             if(semicolon_index == -1){
                 return msg
             }
@@ -19,6 +20,7 @@ function learn(msg){
         console.log('keyword=' + keyword , 'message='+message)
         return msg= 'keyword=' + keyword + 'message='+message
     }
+    console.log('有進來～')
         return msg
 }
 
