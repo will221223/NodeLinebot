@@ -2,7 +2,7 @@ const linebot = require('linebot');
 const express = require('express');
 const firebaseDB = require('./firebase_admin');
 
-const lineMsg = firebaseDB.ref('lineMsg')
+const lineMsgDB = firebaseDB.ref('lineMsg')
 
 
 const bot = linebot({
@@ -23,13 +23,14 @@ function learn(msg){
         let message = received_text.slice(semicolon_index+1)
         
         msg= 'keyword=' + keyword + ', message='+message
-        lineMsg.push({keyword:keyword,message:message})
+        lineMsgDB.push({keyword:keyword,message:message})
         return '我學會啦～'
     }else{
-        lineMsg.once('value',function(data){
+        lineMsgDB.once('value',function(data){
+            console.log('lineMsgData===',data)
             let msglist = []
             data.forEach(function(datalist){
-                console.log(datalist)
+                console.log('datalist=',datalist)
             })
         })
     console.log('有進來～')
