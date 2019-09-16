@@ -26,6 +26,12 @@ function learn(msg){
         lineMsg.push({keyword:keyword,message:message})
         return '我學會啦～'
     }else{
+        lineMsg.once('value',function(data){
+            let msglist = []
+            data.forEach(function(datalist){
+                console.log(datalist)
+            })
+        })
     console.log('有進來～')
         return msg
     }
