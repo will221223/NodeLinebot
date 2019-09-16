@@ -17,8 +17,9 @@ function learn(msg){
             }
         let keyword = received_text.substr(0,semicolon_index)
         let message = received_text.slice(semicolon_index+1)
-        console.log('keyword=' + keyword , 'message='+message)
+        
         msg= 'keyword=' + keyword + 'message='+message
+        console.log(msg)
         return msg
     }else{
     console.log('有進來～')
