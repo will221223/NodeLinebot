@@ -22,6 +22,7 @@ const app = express();
 
 const linebotParser = bot.parser();
 app.get("/", function (req, res) { 
+    console.log(bot)
     res.send("Hello LineBot");
 });
 app.post('/', linebotParser);
