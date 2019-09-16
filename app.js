@@ -26,7 +26,7 @@ function learn(msg){
         lineMsgDB.push({keyword:keyword,message:message})
         return '我學會啦～'
     }else{
-        let reply
+        var reply
         let msglist = []
         lineMsgDB.once('value',function(data){
             data.forEach(function(datalist){
