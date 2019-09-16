@@ -27,7 +27,7 @@ app.get("/", function (req, res) {
 });
 app.post('/', linebotParser);
 
-const server = app.listen(process.env.PORT || 80, function() {
+const server = app.listen(process.env.PORT || 8080, function() {
     let port = server.address().port;
     console.log('App now running on port', port);
 });
