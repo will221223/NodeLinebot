@@ -20,7 +20,7 @@ function learn(msg){
         
         msg= 'keyword=' + keyword + ', message='+message
         console.log(msg)
-        return event.reply()
+        return msg
     }else{
     console.log('有進來～')
         return msg
@@ -30,8 +30,9 @@ function learn(msg){
 bot.on('message', function(event) {
     if (event.message.type = 'text') {
         let msg = event.message.text;
-        event.reply(msg).then(function(data) {
-            learn(msg)
+        // learn(msg)
+        event.learn(msg).then(function(data) {
+            console.log('reply success')
         }).catch(function(error) {
             console.log('錯誤產生，錯誤碼：'+error);
         });
