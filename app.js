@@ -2,10 +2,8 @@ const linebot = require('linebot');
 const express = require('express');
 const firebaseDB = require('./firebase_admin');
 
-const ref = firebaseDB.ref('lineMsg')
-ref.once('value',function(snapshot){
-    console.log(snapshot.val())
-})
+const lineMsg = firebaseDB.ref('lineMsg')
+
 
 const bot = linebot({
     channelId: process.env.CHANNEL_ID,
@@ -25,7 +23,7 @@ function learn(msg){
         let message = received_text.slice(semicolon_index+1)
         
         msg= 'keyword=' + keyword + ', message='+message
-        
+        lineMsg.set({keyword:keyword,message:message})
         return '我學會啦～'
     }else{
     console.log('有進來～')
