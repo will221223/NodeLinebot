@@ -16,6 +16,34 @@ bot.on('message', function(event) {
     //         console.log('錯誤產生，錯誤碼：'+error);
     //     });
     // }
+    var Stype={"水瓶":10,"雙魚":11,"牡羊":0,"金牛":1,"雙子":2,"巨蟹":3,"獅子":4,"處女":5,"天秤":6,"天蠍":7,"射手":8,"魔羯":9}
+		if(Stype.hasOwnProperty(event.message.text))
+		{
+			var Today=new Date();
+			var Y=Today.getFullYear()
+				,M=(parseInt(Today.getMonth())<10) ? "0"+(Today.getMonth()+1) : (Today.getMonth()+1)
+				,D=(parseInt(Today.getDate())<10) ? "0"+Today.getDate() : Today.getDate()
+			let fullDate= Y+"-"+M+"-"+D
+			var url=`http://astro.click108.com.tw/daily_${Stype[event.message.text]}.php?iAcDay=${fullDate}&iAstro=${Stype[event.message.text]}`
+			request(url, (err, res, body) => {
+			// 把 body 放進 cheerio 準備分析
+			const $ = cheerio.load(body)
+			let weathers = []
+			$('.TODAY_CONTENT').each(function(i, elem) {
+				weathers.push($(this).text().split('\n'))
+			})
+			weathers = weathers.map(weather => ({
+				intro:weather[1].trim(),
+				all: weather[2].trim(),//.substring(2).split(' ')[0],
+				love: weather[3].trim(),//.substring(2),
+				work: weather[5].trim(),//.substring(2),
+				money: weather[6].trim(),//.substring(2),
+			  }))  
+			  var AllString=weathers[0].intro+"\r\n"+weathers[0].all+"\r\n"+weathers[0].love+"\r\n"+weathers[0].work+"\r\n"+weathers[0].money;
+			  return event.reply(AllString)
+			})
+        }
+        
     switch (event.message.type) {
 	
 		case 'text':
@@ -29,14 +57,8 @@ bot.on('message', function(event) {
 				case '二哈':
 					return event.reply('愛吃屎')
 					break;
-				case '我會好好加油的':
-				return event.reply('黃以安瑤瑤黃暐婷APPLE的胸部跟奶好大 打奶泡會超級爽 口交也是 做愛幹黃以安瑤瑤黃暐婷APPLE 24小時也不會累\r\n黃以安瑤瑤黃暐婷APPLE的胸部好大 爆乳 乳溝 黃以安瑤瑤黃暐婷APPLE的身體是我的 黃以安瑤瑤黃暐婷APPLE的處女是我的 幫我口交 幫我打奶砲我要顏射在黃以安瑤瑤黃暐婷APPLE臉上 我要內射 中出 給黃以安瑤瑤黃暐婷APPLE懷孕 當我女友 我會給你爽的 我門來做愛吧\r\n黃以安瑤瑤黃暐婷APPLE一定要幹到黃暐婷APPLE\r\n一定要內射給黃以安瑤瑤黃暐婷APPLE懷孕 才會爽 我會好好的加油的')
-				break;	
 				case '安安':
 				return event.reply('安')
-				break;
-				case '李俊傑':
-				return event.reply('吃狗屌')
 				break;
 				case '吃什麼':
 				return event.reply('屎')
