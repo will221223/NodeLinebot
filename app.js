@@ -1,6 +1,6 @@
 const linebot = require('linebot');
 const express = require('express');
-const firebaseDB = require('firebase_admin');
+const firebaseDB = require('./firebase_admin');
 
 const ref = firebaseDB.ref('lineMsg')
 ref.once('value',function(snapshot){
