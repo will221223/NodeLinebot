@@ -14,8 +14,8 @@ let keyword_mapping ={
 }
 
 bot.on('message', function(event) {
-    console.log(event.message)
-    console.log(keyword_mapping[QQ])
+    console.log('event.message=',event.message)
+    // console.log(keyword_mapping[QQ])
     if (event.message.type = 'text') {
         let msg = event.message.text;
         event.reply(msg).then(function(data) {
