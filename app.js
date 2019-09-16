@@ -8,14 +8,14 @@ const bot = linebot({
 });
 
 bot.on('message', function(event) {
-    if (event.message.type = 'text') {
-        let msg = event.message.text;
-        event.reply(msg).then(function(data) {
-            console.log('測試回一樣的話')
-        }).catch(function(error) {
-            console.log('錯誤產生，錯誤碼：'+error);
-        });
-    }
+    // if (event.message.type = 'text') {
+    //     let msg = event.message.text;
+    //     event.reply(msg).then(function(data) {
+    //         console.log('測試回一樣的話')
+    //     }).catch(function(error) {
+    //         console.log('錯誤產生，錯誤碼：'+error);
+    //     });
+    // }
     switch (event.message.type) {
 	
 		case 'text':
