@@ -31,7 +31,7 @@ bot.on('message', function(event) {
     if (event.message.type = 'text') {
         let msg = event.message.text;
         // learn(msg)
-        event.learn(msg).then(function(data) {
+        event.reply(learn(msg)).then(function(data) {
             console.log('reply success')
         }).catch(function(error) {
             console.log('錯誤產生，錯誤碼：'+error);
