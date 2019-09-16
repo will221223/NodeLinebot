@@ -1,7 +1,7 @@
 {
   "name": "newbot",
   "version": "1.0.0",
-  "description": "",
+  "description": "A sample Node.js linebot app",
   "main": "index.js",
   "scripts": {
     "start": "node app.js"
@@ -9,7 +9,16 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "dotenv": "^8.1.0",
+    "ejs": "^2.7.1",
     "express": "^4.17.1",
+    "firebase-admin": "^8.5.0",
     "linebot": "^1.5.3"
-  }
+  },
+  "keywords": [
+    "linebot",
+    "node",
+    "heroku",
+    "express"
+  ]
 }
