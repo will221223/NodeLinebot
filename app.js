@@ -26,11 +26,12 @@ function learn(msg){
         lineMsgDB.push({keyword:keyword,message:message})
         return '我學會啦～'
     }else{
+        let reply
+        let msglist = []
         lineMsgDB.once('value',function(data){
-            let msglist = []
             data.forEach(function(datalist){
                 if(datalist.val().keyword == msg){
-                    let reply = datalist.val().message
+                    reply = datalist.val().message
                     console.log('msg inside=',msg)
                 }
             })
