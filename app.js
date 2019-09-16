@@ -17,7 +17,7 @@ function learn(msg){
         // console.log('received_text=',received_text)
         let semicolon_index = received_text.indexOf(';')
             if(semicolon_index == -1){
-                return msg
+                return '是不是沒有加分號;咧？汪！'
             }
         let keyword = received_text.substr(0,semicolon_index)
         let message = received_text.slice(semicolon_index+1)
@@ -30,13 +30,13 @@ function learn(msg){
             let msglist = []
             data.forEach(function(datalist){
                 if(datalist.val().keyword == msg){
-                    msg = datalist.val().message
+                    let reply = datalist.val().message
                     console.log('msg inside=',msg)
                 }
             })
         })
-    console.log('有進來～')
-    return msg
+    console.log('有進來～',reply)
+    return reply
     }
 }
 
