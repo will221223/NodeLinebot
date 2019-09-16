@@ -31,11 +31,14 @@ function learn(msg){
             data.forEach(function(datalist){
                 console.log('datalist.val().keyword=',datalist.val().keyword)
                 console.log('msg=',msg)
-                if(datalist.val().keyword == msg)
+                if(datalist.val().keyword == msg){
+                    msg = datalist.val().message
+                    console.log('msg inside=',msg)
+                    return msg
+                }
             })
         })
     console.log('有進來～')
-        return msg
     }
 }
 
