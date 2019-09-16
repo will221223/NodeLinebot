@@ -27,10 +27,10 @@ function learn(msg){
         return '我學會啦～'
     }else{
         lineMsgDB.once('value',function(data){
-            console.log('lineMsgData===',data)
+            console.log('lineMsgData===',data.val())
             let msglist = []
             data.forEach(function(datalist){
-                console.log('datalist=',datalist)
+                console.log('datalist=',datalist.val())
             })
         })
     console.log('有進來～')
