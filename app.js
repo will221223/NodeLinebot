@@ -11,9 +11,7 @@ bot.on('message', function(event) {
     if (event.message.type = 'text') {
         let msg = event.message.text;
         event.reply(msg).then(function(data) {
-            for(let i=0;i<keyword_mapping.length ; i++){
-                console.log(keyword_mapping[i])
-            }
+            console.log(event)
         }).catch(function(error) {
             console.log('錯誤產生，錯誤碼：'+error);
         });
