@@ -23,7 +23,7 @@ function learn(msg){
         let message = received_text.slice(semicolon_index+1)
         
         msg= 'keyword=' + keyword + ', message='+message
-        lineMsg.set({keyword:keyword,message:message})
+        lineMsg.push({keyword:keyword,message:message})
         return '我學會啦～'
     }else{
     console.log('有進來～')
