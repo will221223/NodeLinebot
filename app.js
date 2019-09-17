@@ -25,7 +25,7 @@ function checkDB(msg) {
     })
 }
 
-async function learn(msg){
+function learn(msg){
     if(msg.substr(0,4)=='學說話;'){
         let received_text  = msg.slice(4)
         // console.log('received_text=',received_text)
