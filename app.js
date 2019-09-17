@@ -39,6 +39,7 @@ function learn(msg){
         lineMsgDB.push({keyword:keyword,message:message})
         return '我學會啦～'
     }else{
+        console.log('msg==',msg)
         checkDB(msg).then(result =>{
             console.log('result==',result)
         })
