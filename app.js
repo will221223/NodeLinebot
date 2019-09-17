@@ -17,13 +17,13 @@ function checkDB(msg){
       lineMsgDB.once('value').then(function(data){
             data.forEach(function(datalist){
                 if(datalist.val().keyword == msg){
-                    console.log('true or false?',datalist.val().keyword === msg)
                     DBmsg = datalist.val().message
+                    console.log('DBmsg==',DBmsg)
                     resolve(DBmsg)
-                    return
+                    return DBmsg
                 }else if(datalist.val().keyword !== msg){
                 reject(msg)
-                return
+                return msg
                 }
             })
         })
@@ -46,9 +46,12 @@ async function learn(msg){
         return '我學會啦～'
     }else{
         console.log('await checkDB(msg)==',await checkDB(msg))
-        // try{
+        try{
            return await checkDB(msg)
-        
+        }catch(reject){
+            console.log('reject===',reject)
+            return reject
+        }
     }
 }
 
