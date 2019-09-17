@@ -27,8 +27,10 @@ function checkDB(msg){
     })
 }
 
-async function learn(msg){
-    if(msg.substr(0,4)=='學說話;'){
+async function judgement(msg){
+    switch (msg){
+    case (msg.substr(0,4)=='學說話;'):
+    {
         let received_text  = msg.slice(4)
         let semicolon_index = received_text.indexOf(';')
             if(semicolon_index == -1){
@@ -40,19 +42,48 @@ async function learn(msg){
         msg= 'keyword=' + keyword + ', message='+message
         lineMsgDB.push({keyword:keyword,message:message})
         return '我學會啦～'
-    }else{
+        break;
+    }
+    case '笑話':
+            let rm= Math.floor(Math.random() * ( Math.floor(12) - Math.ceil(1))) + Math.ceil(1);
+            var url=`http://joke.876.tw/show/list_${rm}_${rm}.shtml`
+            request(url, (err, res, body) => {
+            // 把 body 放進 cheerio 準備分析
+                const $ = cheerio.load(body)
+                let weathers = []
+                $('.jlist dd a').each(function(i, elem) {
+                    weathers.push($(this).attr("href"))
+                })
+                let rjoke=weathers[Math.floor(Math.random()*weathers.length)];
+                url=`http://joke.876.tw/show/${rjoke}`
+                request(url, (err, res, body) => {
+                    // 把 body 放進 cheerio 準備分析
+                    const $ = cheerio.load(body)
+                    let weathers = $('.arts_c').text().replace($('p.lnart').text(),"").replace($('p.jtime').text(),"")//$('.arts_c:not(p.jtime)').text()//.not('p.jtime').not('p.lnart').text()//$('.arts_c').not('p.jtime').not('p.lnart').text()
+                    let title=$('.arts_f .arts h1').text();
+                    return event.reply(title+"\r\n\r\n"+weathers.replace('\n','').replace('\t',"").trim());
+                    //console.log(title+"\r\n\r\n"+weathers.replace('\n','').replace('\t',"").trim())
+                })
+
+            })
+            break;
+    default:
+        {
         try{
-           return await checkDB(msg)
+        return await checkDB(msg)
         }catch(reject){
             return reject
         }
+        break;
+    }
+
     }
 }
 
 bot.on('message',async function(event) {
     if (event.message.type = 'text') {
         let msg = event.message.text;
-        event.reply(await learn(msg)).then(function(data) {
+        event.reply(await judgement(msg)).then(function(data) {
             console.log('reply success')
         }).catch(function(error) {
             console.log('錯誤產生，錯誤碼：'+error);
