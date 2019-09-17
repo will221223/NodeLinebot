@@ -12,15 +12,15 @@ const bot = linebot({
 });
 
 function checkDB(msg){
-    var reply
+    var DBmsg
       return  lineMsgDB.once('value').then(function(data){
             data.forEach(function(datalist){
                 if(datalist.val().keyword == msg){
-                    reply = datalist.val().message
-                    return reply
+                    DBmsg = datalist.val().message
+                    return DBmsg
                 }
             })
-            return reply
+            return DBmsg
         })
 }
 
@@ -39,11 +39,13 @@ function learn(msg){
         lineMsgDB.push({keyword:keyword,message:message})
         return '我學會啦～'
     }else{
+        let reply
         checkDB(msg).then(result =>{
-            console.log('result=',result)
-            return result
+            reply = result
+            console.log('reply inside=',reply)
         })
-        
+        console.log('reply outside=',reply)
+        return reply
     }
 }
 
