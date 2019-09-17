@@ -15,13 +15,14 @@ function checkDB(msg){
     var reply
       return  lineMsgDB.once('value').then(function(data){
             data.forEach(function(datalist){
-                console.log('datalist.val()==',datalist.val())
+                console.log('same?',datalist.val().keyword == msg)
                 if(datalist.val().keyword == msg){
                     reply = datalist.val().message
                     return reply
                 }
             })
-            //console.log('reply==',reply)
+            console.log('reply==',reply)
+            return reply
         })
 }
 
