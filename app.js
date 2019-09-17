@@ -20,8 +20,10 @@ function checkDB(msg){
                     console.log('true or false?',datalist.val().keyword === msg)
                     DBmsg = datalist.val().message
                     resolve(DBmsg)
+                    return
                 }else if(datalist.val().keyword !== msg){
                 reject(msg)
+                return
                 }
             })
         })
@@ -45,10 +47,10 @@ async function learn(msg){
     }else{
         try{
             console.log('await checkDB(msg)==',await checkDB(msg))
-           return  await checkDB(msg)
-        }catch(err){
-            console.log('err===',err)
-            return err
+           return await checkDB(msg)
+        }catch(reject){
+            console.log('reject===',reject)
+            return reject
         }
     }
 }
@@ -56,7 +58,6 @@ async function learn(msg){
 bot.on('message',async function(event) {
     if (event.message.type = 'text') {
         let msg = event.message.text;
-        console.log('learn(msg)=====', await learn(msg))
         event.reply(await learn(msg)).then(function(data) {
             console.log('reply success')
         }).catch(function(error) {
