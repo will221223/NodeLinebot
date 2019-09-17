@@ -37,6 +37,9 @@ function learn(msg){
             })
         }).then(function(){
             console.log('有進來～',reply)
+            console.log('msg=',msg)
+            msg = reply
+            console.log('msg=reply',msg )
             return reply
         })
     }
