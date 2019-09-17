@@ -12,8 +12,7 @@ const bot = linebot({
 });
 
 function checkDB(msg){
-    var reply = ''
-    return new Promise((resolve,reject) => {
+    var reply
         lineMsgDB.once('value').then(function(data){
             data.forEach(function(datalist){
                 if(datalist.val().keyword == msg){
@@ -21,9 +20,8 @@ function checkDB(msg){
                 }
             })
             console.log('reply==',reply)
-            resolve(reply)
+            return reply
         })
-    })
 }
 
 function learn(msg){
