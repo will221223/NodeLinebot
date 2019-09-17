@@ -11,17 +11,17 @@ const bot = linebot({
     channelAccessToken: process.env.CHANNEL_ACCESS_TOKEN
 });
 
+var lastestShot = undefined;
+
 function checkDB(msg) {
     lineMsgDB.once('value',function(data){
-        data.forEach(function(datalist){
+        lastestShot = data
+        lastestShot.forEach(function(datalist){
             if(datalist.val().keyword == msg){
                 let reply = datalist.val().message
                 return reply
             }
         })
-    }).then(function(){
-        console.log('reply===',reply)
-        return reply
     })
 }
 
@@ -40,15 +40,16 @@ async function learn(msg){
         lineMsgDB.push({keyword:keyword,message:message})
         return '我學會啦～'
     }else{
-        return await checkDB(msg)
+        console.log('checkDB(msg)==',checkDB(msg))
+        return checkDB(msg)
     }
 }
 
-bot.on('message',async function(event) {
+bot.on('message',function(event) {
     if (event.message.type = 'text') {
         let msg = event.message.text;
         console.log('result=====',learn(msg))
-        event.reply(await learn(msg)).then(function(data) {
+        event.reply(learn(msg)).then(function(data) {
             console.log('reply success')
         }).catch(function(error) {
             console.log('錯誤產生，錯誤碼：'+error);
