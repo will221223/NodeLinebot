@@ -1,9 +1,7 @@
 const linebot = require('linebot');
 const express = require('express');
 const firebaseDB = require('./firebase_admin');
-
 const lineMsgDB = firebaseDB.ref('lineMsg')
-
 
 const bot = linebot({
     channelId: process.env.CHANNEL_ID,
@@ -32,26 +30,21 @@ function checkDouble(msg,keyword){
     return new Promise((resolve, reject) => {
       lineMsgDB.once('value').then(function(data){
               data.forEach(function(datalist){
-                  console.log('keyword1=',datalist.val().keyword)
-                  console.log('keyword2=',keyword)
-                  console.log('keyword same?',datalist.val().keyword == keyword)
                 if(datalist.val().keyword == keyword){
                     haslearned = true
-                    console.log('haslearned 有進來==',haslearned)
                     reject(haslearned)
                     return haslearned
                 }
             })
-                // haslearned = false
-                console.log('haslearned false==',haslearned)
                 resolve(haslearned)
         })
     })
 }
 
 async function judgement(msg){
-    // switch (msg){
-    if (msg.substr(0,4)=='學說話;'){
+    switch (msg){
+    case (msg.substr(0,4)=='學說話;'):
+        {
         let received_text  = msg.slice(4)
         let semicolon_index = received_text.indexOf(';')
             if(semicolon_index == -1){
@@ -61,24 +54,27 @@ async function judgement(msg){
         let message = received_text.slice(semicolon_index+1)
         
         msg= 'keyword=' + keyword + ', message='+message
-
+        // 判斷有沒有學過
         try{
-            console.log('promise==',await checkDouble(msg,keyword))
             await checkDouble(msg,keyword)
             lineMsgDB.push({keyword:keyword,message:message})
             return '我學會啦～' 
         }catch(reject){
-            console.log('reject==',reject)
                 return '這句我學過了啦！'
             }
-
-    }else {
+    }
+    break;
+    // else {
+    default:
+         {
+        // 判斷有沒有學過關鍵字
         try{
         return await checkDB(msg)
         }catch(reject){
             return reject
         }
     }
+    break;
 }
 
 bot.on('message',async function(event) {
