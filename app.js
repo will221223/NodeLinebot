@@ -28,19 +28,21 @@ function learn(msg){
     }else{
         var reply
         let msglist = []
-        lineMsgDB.once('value').then(function(data){
+        function checkDB(msg){
+        return new Promise(function (resolve, reject){
+        lineMsgDB.once('value',function(data){
             data.forEach(function(datalist){
                 if(datalist.val().keyword == msg){
-                    console.log('有進來～')
-                    return reply = datalist.val().message
+                    reply = datalist.val().message
                 }
             })
         })
-        // console.log('reply = ',reply)
-        // return reply
-        // .then(function(){
-        // })
-        // return msg
+    })
+}
+checkDB.then(function(){
+            console.log('reply = ',reply)
+            return reply
+        })
     }
 }
 
