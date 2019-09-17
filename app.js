@@ -40,6 +40,7 @@ function learn(msg){
         return '我學會啦～'
     }else{
         checkDB(msg).then(result =>{
+            console.log('result=',result)
             return result
         })
         
@@ -49,7 +50,7 @@ function learn(msg){
 bot.on('message',function(event) {
     if (event.message.type = 'text') {
         let msg = event.message.text;
-        console.log('result=====',learn(msg))
+        console.log('learn(msg)=====',learn(msg))
         event.reply(learn(msg)).then(function(data) {
             console.log('reply success')
         }).catch(function(error) {
