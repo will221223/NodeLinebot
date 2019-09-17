@@ -11,21 +11,19 @@ const bot = linebot({
     channelAccessToken: process.env.CHANNEL_ACCESS_TOKEN
 });
 
-var lastestShot = undefined;
-
 function checkDB(msg) {
-    lineMsgDB.once('value',function(data){
-        lastestShot = data
-        lastestShot.forEach(function(datalist){
+    var reply
+    return lineMsgDB.once('value',function(data){
+        data.forEach(function(datalist){
             if(datalist.val().keyword == msg){
-                let reply = datalist.val().message
-                return reply
+                 reply = datalist.val().message
+                 return reply
             }
         })
     })
 }
 
-function learn(msg){
+async function learn(msg){
     if(msg.substr(0,4)=='學說話;'){
         let received_text  = msg.slice(4)
         // console.log('received_text=',received_text)
@@ -41,7 +39,7 @@ function learn(msg){
         return '我學會啦～'
     }else{
         console.log('checkDB(msg)==',checkDB(msg))
-        return checkDB(msg)
+        return await checkDB(msg)
     }
 }
 
