@@ -48,7 +48,7 @@ async function echo(keyword){
     try{
         await checkReceived(keyword)
         await checkReply(keyword)
-        if(await checkReceived(keyword) ==true && await checkReply(keyword) ==false){
+        if(await checkReceived(keyword) && await checkReply(keyword)){
             console.log('該推齊了～')
         }else{
             console.log('不說話～')
@@ -86,9 +86,10 @@ function checkReply(keyword){
     var countReply = 0
     var hadReply = false
     return new Promise((resolve, reject) => {
-        lineMsgReceivedDB.once('value').then(function(data){
+        lineMsgReplyDB.orderByChild('reply').once('value').then(function(data){
+            console.log('data==',data)
               data.forEach(function(datalist){
-                if(datalist.val().received == keyword){
+                if(datalist.val().reply == keyword){
                     countReply ++
                 }
             })
@@ -96,11 +97,11 @@ function checkReply(keyword){
             if(countReply >= 1){
                 hadReply = true
                 console.log('有打過 true?',hadReply)
-                resolve(hadReply)
+                reject(hadReply)
                 return
             }
             console.log('有打過 false?',hadReply)
-            reject(hadReply)
+            resolve(hadReply)
         })
     })
 }
