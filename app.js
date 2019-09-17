@@ -44,8 +44,8 @@ function learn(msg){
         return '我學會啦～'
     }else{
       
-checkDB(msg).then(function(){
-            console.log('msg = ',msg)
+checkDB(msg).then(function(reply){
+            console.log('reply = ',reply)
             // return reply
         })
     }
