@@ -41,21 +41,26 @@ async function judgement(msg){
         msg= 'keyword=' + keyword + ', message='+message
 
         var haslearned = false
+
+        new Promise((resolve, reject) => {
         lineMsgDB.once('value',function(data){
             data.forEach(function(datalist){
               if(datalist.val().keyword == keyword){
-                  console.log('有進來')
                   haslearned = true
+                  resolve(haslearned)
               }
           })
         })
+    }).then(function(){
         console.log('haslearned=',haslearned)
         if(haslearned){
+            console.log('有進來')
             return '這句我學過了啦！嫩'
         }else{
         lineMsgDB.push({keyword:keyword,message:message})
         return '我學會啦～' 
             }
+        })
     }else {
         try{
         return await checkDB(msg)
