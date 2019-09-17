@@ -44,7 +44,7 @@ function learn(msg){
             reply = result
             return reply
         })
-        console.log('reply=',reply)
+        console.log('reply=',DBmsg)
         return reply
     }
 }
