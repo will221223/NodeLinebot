@@ -17,13 +17,12 @@ function checkDB(msg){
       lineMsgDB.once('value').then(function(data){
             data.forEach(function(datalist){
                 if(datalist.val().keyword == msg){
-                    console.log('keyin==',datalist.val().keyword)
-                    console.log('msg==',msg)
-                    console.log('true or false?',datalist.val().keyword == msg)
+                    console.log('true or false?',datalist.val().keyword === msg)
                     DBmsg = datalist.val().message
                     resolve(DBmsg)
-                }
+                }else if(datalist.val().keyword !== msg){
                 reject(msg)
+                }
             })
         })
     })
