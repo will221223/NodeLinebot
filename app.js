@@ -42,9 +42,10 @@ function learn(msg){
         let reply
         checkDB(msg).then(result =>{
             reply = result
-            // return result
-            console.log('reply=',reply)
+            return reply
         })
+        console.log('reply=',reply)
+        return reply
     }
 }
 
