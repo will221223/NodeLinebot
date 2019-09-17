@@ -15,13 +15,11 @@ function checkDB(msg){
     var reply
       return  lineMsgDB.once('value').then(function(data){
             data.forEach(function(datalist){
-                console.log('same?',datalist.val().keyword == msg)
                 if(datalist.val().keyword == msg){
                     reply = datalist.val().message
                     return reply
                 }
             })
-            console.log('reply==',reply)
             return reply
         })
 }
@@ -42,7 +40,7 @@ function learn(msg){
         return '我學會啦～'
     }else{
         checkDB(msg).then(result =>{
-            console.log('result==',result)
+            return result
         })
         
     }
