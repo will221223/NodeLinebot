@@ -14,10 +14,8 @@ const bot = linebot({
 function checkDB(msg){
     var reply
       return  lineMsgDB.once('value').then(function(data){
-          console.log('data==',data)
             data.forEach(function(datalist){
-                console.log(datalist.val())
-                console.log('msg==',msg)
+                console.log('datalist.val()==',datalist.val())
                 if(datalist.val().keyword == msg){
                     reply = datalist.val().message
                     console.log('reply inside==',reply)
