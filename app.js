@@ -28,15 +28,16 @@ function learn(msg){
     }else{
         var reply
         let msglist = []
-        lineMsgDB.once('value',function(data){
+        lineMsgDB.once('value').then(function(data){
             data.forEach(function(datalist){
                 if(datalist.val().keyword == msg){
-                    reply = datalist.val().message
-                    console.log('reply = ',reply)
-                    return reply
+                    console.log('有進來～')
+                    return reply = datalist.val().message
                 }
             })
         })
+        console.log('reply = ',reply)
+        return reply
         // .then(function(){
         // })
         // return msg
