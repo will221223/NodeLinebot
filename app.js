@@ -32,15 +32,13 @@ function learn(msg){
             data.forEach(function(datalist){
                 if(datalist.val().keyword == msg){
                     reply = datalist.val().message
-                    console.log('有進來～',reply)
-                    return reply
                 }
             })
         }).then(function(){
             console.log('then裡面～',reply)
             return reply
         })
-        // console.log('msg=',msg )
+        console.log('reply=',reply )
         // return msg
     }
 }
@@ -48,7 +46,7 @@ function learn(msg){
 bot.on('message', function(event) {
     if (event.message.type = 'text') {
         let msg = event.message.text;
-        // learn(msg)
+        console.log('result=====',learn(msg))
         event.reply(learn(msg)).then(function(data) {
             console.log('reply success')
         }).catch(function(error) {
