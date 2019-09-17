@@ -49,7 +49,7 @@ async function echo(keyword){
         await checkReceived(keyword)
         await checkReply(keyword)
         if(await checkReceived(keyword) && await checkReply(keyword)){
-            console.log('該推齊了～')
+            return keyword
         }else{
             console.log('不說話～')
         }
@@ -71,14 +71,13 @@ function checkReceived(keyword){
             })
             console.log('countReceived==',countReceived)
             if(countReceived >= 2){
-                
+                hadRecieved = true
                 console.log('有收過 true?',hadRecieved)
-                reject(hadRecieved)
+                resolve(hadRecieved)
                 return
             }
-            hadRecieved = true
             console.log('有收過 false?',hadRecieved)
-            resolve(hadRecieved)
+            reject(hadRecieved)
         })
     })
 }
