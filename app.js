@@ -20,6 +20,7 @@ function checkDB(msg){
                     reply = datalist.val().message
                 }
             })
+            console.log('reply==',reply)
             return reply
         })
     })
@@ -41,7 +42,7 @@ function learn(msg){
         return '我學會啦～'
     }else{
         checkDB(msg).then(result =>{
-            console.log(result)
+            console.log('result==',result)
         })
         
     }
