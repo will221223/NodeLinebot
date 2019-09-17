@@ -12,12 +12,12 @@ const bot = linebot({
 });
 
 function checkDB(msg){
-    lineMsgDB.once('value').then(function(data){
+   return lineMsgDB.once('value').then(function(data){
         data.forEach(function(datalist){
             if(datalist.val().keyword == msg){
-                reply = datalist.val().message
-                console.log('reply===',reply)
-                return reply
+                msg = datalist.val().message
+                console.log('reply===',msg)
+                return msg
             }
         })
     })
