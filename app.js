@@ -28,7 +28,7 @@ function checkDB(msg){
 }
 
 function checkDouble(msg,keyword){
-    var haslearned = false
+    var haslearned = true
     return new Promise((resolve, reject) => {
       lineMsgDB.once('value').then(function(data){
               data.forEach(function(datalist){
@@ -36,7 +36,7 @@ function checkDouble(msg,keyword){
                   console.log('keyword2=',keyword)
                   console.log('keyword same?',datalist.val().keyword == keyword)
                 if(datalist.val().keyword == keyword){
-                    haslearned = true
+                    haslearned = false
                     console.log('haslearned 有進來==',haslearned)
                     resolve(haslearned)
                     return haslearned
