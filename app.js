@@ -67,11 +67,11 @@ function checkReceived(keyword){
             })
             if(countReceived >= 2){
                 hadRecieved = true
-                console.log('hadRecieved true?',hadRecieved)
+                console.log('有打過 true?',hadRecieved)
                 resolve(hadRecieved)
                 return
             }
-            console.log('hadRecieved false?',hadRecieved)
+            console.log('有打過 false?',hadRecieved)
             reject(hadRecieved)
         })
     })
@@ -89,11 +89,11 @@ function checkReply(keyword){
             })
             if(countReply >= 1){
                 hadReply = true
-                conseol.log('hadRecieved true?',hadReply)
+                console.log('有收過 true?',hadReply)
                 resolve(hadReply)
                 return
             }
-            conseol.log('hadRecieved false?',hadReply)
+            conseol.log('有收過 false?',hadReply)
             reject(hadReply)
         })
     })
