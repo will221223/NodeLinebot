@@ -16,20 +16,13 @@ function checkDB(msg){
     return new Promise((resolve, reject) => {
       lineMsgDB.once('value').then(function(data){
               data.forEach(function(datalist){
-                console.log('keyword==',datalist.val().keyword)
-                console.log('msg==',msg)
-                console.log('==',datalist.val().keyword == msg)
-                console.log('!==',datalist.val().keyword !== msg)
                 if(datalist.val().keyword == msg){
                     DBmsg = datalist.val().message
                     resolve(DBmsg)
                     return DBmsg
                 }
             })
-            // else if(datalist.val().keyword !== msg){
                 reject(msg)
-                // return msg
-                // }
         })
     })
 }
@@ -37,7 +30,6 @@ function checkDB(msg){
 async function learn(msg){
     if(msg.substr(0,4)=='學說話;'){
         let received_text  = msg.slice(4)
-        // console.log('received_text=',received_text)
         let semicolon_index = received_text.indexOf(';')
             if(semicolon_index == -1){
                 return '是不是沒有加分號;咧？汪！'
@@ -50,10 +42,8 @@ async function learn(msg){
         return '我學會啦～'
     }else{
         try{
-            console.log('await checkDB(msg)==',await checkDB(msg))
            return await checkDB(msg)
         }catch(reject){
-            console.log('reject===',reject)
             return reject
         }
     }
