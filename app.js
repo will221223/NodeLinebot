@@ -13,13 +13,10 @@ const bot = linebot({
 
 function checkDB(msg){
     return new Promise(function (resolve, reject){
-        // var reply
-        // let msglist = []
     lineMsgDB.once('value',function(data){
         data.forEach(function(datalist){
             if(datalist.val().keyword == msg){
                let reply = datalist.val().message
-            console.log('有進來promise~')
                 return resolve(reply)
             }
             return reject()
@@ -43,8 +40,7 @@ function learn(msg){
         lineMsgDB.push({keyword:keyword,message:message})
         return '我學會啦～'
     }else{
-      
-checkDB(msg).then(function(reply){
+           return checkDB(msg).then(function(reply){
             console.log('reply = ',reply)
             return reply
         })
