@@ -46,10 +46,9 @@ async function judgement(msg){
               if(datalist.val().keyword == keyword){
                   console.log('有進來')
                   haslearned = true
-                  console.log('haslearned=',haslearned)
               }
           })
-        })
+        }).then(function(){
         console.log('haslearned outside=',haslearned)
         if(haslearned){
             return '這句我學過了啦！嫩'
@@ -57,6 +56,7 @@ async function judgement(msg){
         lineMsgDB.push({keyword:keyword,message:message})
         return '我學會啦～'
        }
+    })
     }else {
         try{
         return await checkDB(msg)
