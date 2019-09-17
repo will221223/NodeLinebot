@@ -2,13 +2,14 @@ const linebot = require('linebot');
 const express = require('express');
 const firebaseDB = require('./firebase_admin');
 const lineMsgDB = firebaseDB.ref('lineMsg')
-
+//設定linebot
 const bot = linebot({
     channelId: process.env.CHANNEL_ID,
     channelSecret: process.env.CHANNEL_SECRET,
     channelAccessToken: process.env.CHANNEL_ACCESS_TOKEN
 });
-
+//因firebase.once('value')是非同步事件，需要使用Promise來接
+//判斷DB是否已有關鍵字
 function checkDB(msg){
     var DBmsg
     return new Promise((resolve, reject) => {
@@ -24,7 +25,7 @@ function checkDB(msg){
         })
     })
 }
-
+//判斷DB是否已有重複學過這句話
 function checkDouble(msg,keyword){
     var haslearned = false
     return new Promise((resolve, reject) => {
@@ -42,45 +43,47 @@ function checkDouble(msg,keyword){
 }
 
 async function judgement(msg){
+
     switch (msg.substr(0,4)){
-    case ('學說話;'):
-        {
-        let received_text  = msg.slice(4)
-        let semicolon_index = received_text.indexOf(';')
-            if(semicolon_index == -1){
-                return '是不是沒有加分號;咧？汪！'
-            }
-        let keyword = received_text.substr(0,semicolon_index)
-        let message = received_text.slice(semicolon_index+1)
-        
-        msg= 'keyword=' + keyword + ', message='+message
-        // 判斷有沒有學過
-        try{
-            await checkDouble(msg,keyword)
-            lineMsgDB.push({keyword:keyword,message:message})
-            return '我學會啦～' 
-        }catch(reject){
-                return '這句我學過了啦！'
-            }
-    }
-    break;
-    // else {
-    default:
-         {
-        // 判斷有沒有學過關鍵字
-        try{
-        return await checkDB(msg)
-        }catch(reject){
-            return reject
+        case ('學說話;'):{
+            let received_text  = msg.slice(4)
+            let semicolon_index = received_text.indexOf(';')
+                if(semicolon_index == -1){
+                    return '是不是沒有加分號;咧？汪！'
+                }
+            let keyword = received_text.substr(0,semicolon_index)
+            let message = received_text.slice(semicolon_index+1)
+            
+            msg= 'keyword=' + keyword + ', message='+message
+            // 判斷有沒有學過
+            try{
+                await checkDouble(msg,keyword)
+                lineMsgDB.push({keyword:keyword,message:message})
+                return '我學會啦～' 
+            }catch(reject){
+                    return '這句我學過了啦！'
+                }
         }
-    }
-    break;
+        break;
+
+        
+        // else {
+        default:{
+            // 判斷有沒有學過關鍵字
+            try{
+            return await checkDB(msg)
+            }catch(reject){
+                return ''
+            }
+        }
+        break;
     }
 }
 
 bot.on('message',async function(event) {
     if (event.message.type = 'text') {
         let msg = event.message.text;
+        console.log('channelid==',event.channelId)
         event.reply(await judgement(msg)).then(function(data) {
             console.log('reply success')
         }).catch(function(error) {
