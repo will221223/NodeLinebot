@@ -11,7 +11,7 @@ const bot = linebot({
     channelAccessToken: process.env.CHANNEL_ACCESS_TOKEN
 });
 
-exports.checkDB = function (msg){
+function checkDB(msg){
     var reply
       return  lineMsgDB.once('value').then(function(data){
             data.forEach(function(datalist){
