@@ -16,10 +16,12 @@ function checkDB(msg) {
         data.forEach(function(datalist){
             if(datalist.val().keyword == msg){
                 let reply = datalist.val().message
-                console.log('reply===',reply)
                 return reply
             }
         })
+    }).then(function(){
+        console.log('reply===',reply)
+        return reply
     })
 }
 
