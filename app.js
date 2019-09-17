@@ -54,7 +54,7 @@ bot.on('message',async function(event) {
     if (event.message.type = 'text') {
         let msg = event.message.text;
         console.log('learn(msg)=====', await learn(msg))
-        event.reply(learn(msg)).then(function(data) {
+        event.reply(await learn(msg)).then(function(data) {
             console.log('reply success')
         }).catch(function(error) {
             console.log('錯誤產生，錯誤碼：'+error);
