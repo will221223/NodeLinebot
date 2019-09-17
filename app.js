@@ -2,6 +2,9 @@ const linebot = require('linebot');
 const express = require('express');
 const firebaseDB = require('./firebase_admin');
 const lineMsgDB = firebaseDB.ref('lineMsg')
+const lineMsgReplyDB = firebaseDB.ref('ineMsgReply')
+const lineMsgReceivedDB = firebaseDB.ref('lineMsgReceived')
+
 //設定linebot
 const bot = linebot({
     channelId: process.env.CHANNEL_ID,
@@ -10,7 +13,7 @@ const bot = linebot({
 });
 //因firebase.once('value')是非同步事件，需要使用Promise來接
 //判斷DB是否已有關鍵字
-function checkDB(msg){
+function checkDB(msg,userId){
     var DBmsg
     return new Promise((resolve, reject) => {
       lineMsgDB.once('value').then(function(data){
@@ -26,7 +29,7 @@ function checkDB(msg){
     })
 }
 //判斷DB是否已有重複學過這句話
-function checkDouble(msg,keyword){
+function checkDouble(userId,keyword){
     var haslearned = false
     return new Promise((resolve, reject) => {
       lineMsgDB.once('value').then(function(data){
@@ -42,13 +45,14 @@ function checkDouble(msg,keyword){
     })
 }
 
-async function judgement(msg){
-
+async function judgement(msg,userId){
+    lineMsgReceivedDB.push({userId:userId,received:msg})
     switch (msg.substr(0,4)){
         case ('學說話;'):{
             let received_text  = msg.slice(4)
             let semicolon_index = received_text.indexOf(';')
                 if(semicolon_index == -1){
+                    lineMsgReplyDB.push({userId:userId,reply:'是不是沒有加分號;咧？汪！'})
                     return '是不是沒有加分號;咧？汪！'
                 }
             let keyword = received_text.substr(0,semicolon_index)
@@ -59,8 +63,10 @@ async function judgement(msg){
             try{
                 await checkDouble(msg,keyword)
                 lineMsgDB.push({keyword:keyword,message:message})
+                lineMsgReplyDB.push({userId:userId,reply:'我學會啦～'})
                 return '我學會啦～' 
             }catch(reject){
+                lineMsgReplyDB.push({userId:userId,reply:'這句我學過了啦！'})
                     return '這句我學過了啦！'
                 }
         }
@@ -73,6 +79,7 @@ async function judgement(msg){
             try{
             return await checkDB(msg)
             }catch(reject){
+                lineMsgReceivedDB.push({userId:userId,received:reject})
                 return ''
             }
         }
@@ -82,12 +89,9 @@ async function judgement(msg){
 
 bot.on('message',async function(event) {
     if (event.message.type = 'text') {
-        let msg = event.message.text;
-        console.log('type==',event.source.type)
-        console.log('profile==',event.source.profile)
-        console.log('member==',event.source.member)
-        console.log('userId==',event.source.userId)
-        event.reply(await judgement(msg)).then(function(data) {
+        let msg = event.message.text
+        let userId = event.source.userId
+        event.reply(await judgement(msg,userId)).then(function(data) {
             console.log('reply success')
         }).catch(function(error) {
             console.log('錯誤產生，錯誤碼：'+error);
