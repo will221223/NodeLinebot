@@ -13,13 +13,14 @@ const bot = linebot({
 
 function checkDB(msg){
     return new Promise(function (resolve, reject){
-        var reply
-        let msglist = []
+        // var reply
+        // let msglist = []
     lineMsgDB.once('value',function(data){
         data.forEach(function(datalist){
             if(datalist.val().keyword == msg){
-                reply = datalist.val().message
-                return resolve()
+               let reply = datalist.val().message
+            //    msg = reply
+                return resolve(reply)
             }
             return reject()
         })
