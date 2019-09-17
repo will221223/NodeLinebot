@@ -75,6 +75,7 @@ async function judgement(msg){
         }
     }
     break;
+    }
 }
 
 bot.on('message',async function(event) {
