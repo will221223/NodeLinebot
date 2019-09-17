@@ -13,7 +13,7 @@ const bot = linebot({
 
 function checkDB(msg) {
     var reply
-    return lineMsgDB.once('value',function(data){
+    lineMsgDB.once('value',function(data){
         data.forEach(function(datalist){
             if(datalist.val().keyword == msg){
                  reply = datalist.val().message
@@ -23,7 +23,7 @@ function checkDB(msg) {
     })
 }
 
-async function learn(msg){
+function learn(msg){
     if(msg.substr(0,4)=='學說話;'){
         let received_text  = msg.slice(4)
         // console.log('received_text=',received_text)
@@ -39,7 +39,7 @@ async function learn(msg){
         return '我學會啦～'
     }else{
         console.log('checkDB(msg)==',checkDB(msg))
-        return await checkDB(msg)
+        return checkDB(msg)
     }
 }
 
