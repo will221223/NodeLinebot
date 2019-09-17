@@ -48,14 +48,14 @@ async function judgement(msg){
                   haslearned = true
               }
           })
-          console.log('haslearned=',haslearned)
+        })
+        console.log('haslearned=',haslearned)
         if(haslearned){
             return '這句我學過了啦！嫩'
         }else{
         lineMsgDB.push({keyword:keyword,message:message})
         return '我學會啦～' 
             }
-        })
     }else {
         try{
         return await checkDB(msg)
