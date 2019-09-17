@@ -47,6 +47,7 @@ async function judgement(msg){
                   return '這句我學過了啦！嫩'
               }
           })
+        })
         
         lineMsgDB.push({keyword:keyword,message:message})
         return '我學會啦～'
