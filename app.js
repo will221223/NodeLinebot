@@ -42,6 +42,7 @@ async function learn(msg){
         return '我學會啦～'
     }else{
         try{
+            console.log('await checkDB(msg)==',await checkDB(msg))
             await checkDB(msg)
         }catch(err){
             console.log('err ===',err)
@@ -49,10 +50,10 @@ async function learn(msg){
     }
 }
 
-bot.on('message',function(event) {
+bot.on('message',async function(event) {
     if (event.message.type = 'text') {
         let msg = event.message.text;
-        console.log('learn(msg)=====',learn(msg))
+        console.log('learn(msg)=====', await learn(msg))
         event.reply(learn(msg)).then(function(data) {
             console.log('reply success')
         }).catch(function(error) {
