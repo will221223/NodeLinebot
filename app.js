@@ -16,9 +16,9 @@ function checkDB(msg){
     return new Promise((resolve, reject) => {
       lineMsgDB.once('value').then(function(data){
             data.forEach(function(datalist){
-                if(datalist.val().keyword == msg){
+                console.log((datalist.val().keyword === msg))
+                if(datalist.val().keyword === msg){
                     DBmsg = datalist.val().message
-                    console.log('DBmsg==',DBmsg)
                     resolve(DBmsg)
                     return DBmsg
                 }else if(datalist.val().keyword !== msg){
