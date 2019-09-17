@@ -67,11 +67,11 @@ function checkReceived(keyword){
             })
             if(countReceived >= 2){
                 hadRecieved = true
-                conseol.log('hadRecieved true?',hadRecieved)
+                console.log('hadRecieved true?',hadRecieved)
                 resolve(hadRecieved)
                 return
             }
-            conseol.log('hadRecieved false?',hadRecieved)
+            console.log('hadRecieved false?',hadRecieved)
             reject(hadRecieved)
         })
     })
