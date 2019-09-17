@@ -23,7 +23,7 @@ function checkDB(msg){
     })
 }
 
-function learn(msg){
+async function learn(msg){
     if(msg.substr(0,4)=='學說話;'){
         let received_text  = msg.slice(4)
         // console.log('received_text=',received_text)
@@ -38,8 +38,8 @@ function learn(msg){
         lineMsgDB.push({keyword:keyword,message:message})
         return '我學會啦～'
     }else{
-        console.log('checkDB(msg)===',checkDB(msg))
-        }
+        console.log('checkDB(msg)===',await checkDB(msg))
+        
     }
 }
 
