@@ -33,12 +33,12 @@ function learn(msg){
                 if(datalist.val().keyword == msg){
                     reply = datalist.val().message
                     // console.log('reply inside=',reply)
-                    console.log('有進來～',reply)
-                return msg = reply
+                    
                 }
             })
         })
-    
+        console.log('有進來～',reply)
+        return msg = reply
     }
 }
 
