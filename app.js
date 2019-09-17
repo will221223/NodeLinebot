@@ -19,7 +19,7 @@ function checkDB(msg){
         data.forEach(function(datalist){
             if(datalist.val().keyword == msg){
                let reply = datalist.val().message
-            //    msg = reply
+            console.log('有進來promise~')
                 return resolve(reply)
             }
             return reject()
@@ -46,7 +46,7 @@ function learn(msg){
       
 checkDB(msg).then(function(reply){
             console.log('reply = ',reply)
-            // return reply
+            return reply
         })
     }
 }
