@@ -43,9 +43,10 @@ async function learn(msg){
         lineMsgDB.push({keyword:keyword,message:message})
         return '我學會啦～'
     }else{
-        await checkDB(msg)
-        console.log('msg===',msg)
-        return msg
+        await checkDB(msg).resolve(reply){
+        console.log('reply===',reply)
+        return reply
+    }
     }
 }
 
