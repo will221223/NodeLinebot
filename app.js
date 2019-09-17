@@ -28,7 +28,7 @@ function checkDB(msg){
 }
 
 function checkDouble(msg,keyword){
-    var haslearned = flase
+    var haslearned = false
     return new Promise((resolve, reject) => {
       lineMsgDB.once('value').then(function(data){
               data.forEach(function(datalist){
@@ -60,11 +60,12 @@ async function judgement(msg){
         msg= 'keyword=' + keyword + ', message='+message
 
         try{
+            console.log('promise==',await checkDouble(msg,keyword))
             await checkDouble(msg,keyword)
             lineMsgDB.push({keyword:keyword,message:message})
             return '我學會啦～' 
         }catch(reject){
-            console.log('promise==',await checkDouble(msg,keyword))
+            console.log('reject==',reject)
                 return '這句我學過了啦！'
             }
 
