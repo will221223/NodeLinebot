@@ -42,8 +42,8 @@ function checkDouble(msg,keyword){
 }
 
 async function judgement(msg){
-    switch (msg){
-    case (msg.substr(0,4)=='學說話;'):
+    switch (msg.substr(0,4)){
+    case ('學說話;'):
         {
         let received_text  = msg.slice(4)
         let semicolon_index = received_text.indexOf(';')
