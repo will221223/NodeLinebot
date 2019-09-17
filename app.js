@@ -17,11 +17,12 @@ function checkDB(msg){
             data.forEach(function(datalist){
                 console.log('datalist.val()==',datalist.val())
                 if(datalist.val().keyword == msg){
+                    console.log('有進來～')
                     reply = datalist.val().message
                     console.log('reply inside==',reply)
                 }
             })
-            console.log('reply==',reply)
+            //console.log('reply==',reply)
             return reply
         })
 }
@@ -42,7 +43,7 @@ function learn(msg){
         return '我學會啦～'
     }else{
         checkDB(msg).then(result =>{
-            console.log('result==',result)
+            //console.log('result==',result)
         })
         
     }
