@@ -28,22 +28,16 @@ function checkDB(msg){
 }
 
 function checkDouble(msg,keyword){
-    var haslearned = true
+    var haslearned = false
     return new Promise((resolve, reject) => {
       lineMsgDB.once('value').then(function(data){
               data.forEach(function(datalist){
-                  console.log('keyword1=',datalist.val().keyword)
-                  console.log('keyword2=',keyword)
-                  console.log('keyword same?',datalist.val().keyword == keyword)
-                if(datalist.val().keyword == keyword){
-                    haslearned = false
-                    console.log('haslearned 有進來==',haslearned)
+                if(datalist.val().keyword !== keyword){
                     resolve(haslearned)
                     return haslearned
                 }
             })
-                // haslearned = false
-                console.log('haslearned false==',haslearned)
+            haslearned = true
                 reject(haslearned)
         })
     })
