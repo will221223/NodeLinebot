@@ -48,6 +48,7 @@ async function judgement(msg){
                   haslearned = true
               }
           })
+          console.log('haslearned=',haslearned)
         if(haslearned){
             return '這句我學過了啦！嫩'
         }else{
