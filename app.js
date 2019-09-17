@@ -15,16 +15,15 @@ function checkDB(msg){
     var DBmsg
     return new Promise((resolve, reject) => {
       lineMsgDB.once('value').then(function(data){
-        for(var i=0;i<data.length;i++){
-            console.log('dataval===',data[i].val())
-        }
-            data.forEach(function(datalist){
+              data.forEach(function(datalist){
                 console.log('keyword==',typeof(datalist.val().keyword))
                 console.log('msg==',typeof(msg))
+                console.log('==',datalist.val().keyword == msg)
+                console.log('!==',datalist.val().keyword !== msg)
                 if(datalist.val().keyword == msg){
                     DBmsg = datalist.val().message
                     resolve(DBmsg)
-                    // return DBmsg
+                    return DBmsg
                 }else if(datalist.val().keyword !== msg){
                 reject(msg)
                 // return msg
