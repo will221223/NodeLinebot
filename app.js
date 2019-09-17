@@ -27,6 +27,22 @@ function checkDB(msg){
     })
 }
 
+function checkDouble(msg,keyword){
+    var haslearned = false
+    return new Promise((resolve, reject) => {
+      lineMsgDB.once('value').then(function(data){
+              data.forEach(function(datalist){
+                if(datalist.val().keyword == keyword){
+                    haslearned = true
+                    resolve(haslearned)
+                    return haslearned
+                }
+            })
+                reject(haslearned)
+        })
+    })
+}
+
 async function judgement(msg){
     // switch (msg){
     if (msg.substr(0,4)=='學說話;'){
@@ -42,25 +58,14 @@ async function judgement(msg){
 
         var haslearned = false
 
-        new Promise((resolve, reject) => {
-        lineMsgDB.once('value',function(data){
-            data.forEach(function(datalist){
-              if(datalist.val().keyword == keyword){
-                  haslearned = true
-                  resolve(haslearned)
-              }
-          })
-        })
-    }).then(function(){
-        console.log('haslearned=',haslearned)
-        if(haslearned){
-            console.log('有進來')
-            return '這句我學過了啦！嫩'
-        }else{
-        lineMsgDB.push({keyword:keyword,message:message})
+        try{
+            await checkDouble(msg,keyword)
+            lineMsgDB.push({keyword:keyword,message:message})
         return '我學會啦～' 
+        }catch(reject){
+                return '這句我學過了啦！'
             }
-        })
+
     }else {
         try{
         return await checkDB(msg)
