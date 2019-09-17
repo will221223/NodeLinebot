@@ -37,7 +37,7 @@ function learn(msg){
             })
         }).then(function(){
             console.log('有進來～',reply)
-            return msg = reply
+            return reply
         })
     }
 }
