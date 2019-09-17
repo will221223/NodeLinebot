@@ -28,9 +28,8 @@ function checkDB(msg){
 }
 
 async function judgement(msg){
-    switch (msg){
-    case (msg.substr(0,4)=='學說話;'):
-    {
+    // switch (msg){
+    if (msg.substr(0,4)=='學說話;'){
         let received_text  = msg.slice(4)
         let semicolon_index = received_text.indexOf(';')
             if(semicolon_index == -1){
@@ -56,19 +55,12 @@ async function judgement(msg){
         }
         lineMsgDB.push({keyword:keyword,message:message})
         return '我學會啦～'
-        break;
-    }
-
-    default:
-        {
+    }else {
         try{
         return await checkDB(msg)
         }catch(reject){
             return reject
         }
-        break;
-    }
-
     }
 }
 
