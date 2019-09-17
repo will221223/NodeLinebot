@@ -39,7 +39,7 @@ function checkDouble(msg,keyword){
                     return haslearned
                 }
             })
-                haslearned = false
+                // haslearned = false
                 console.log('haslearned false==',haslearned)
                 reject(haslearned)
         })
