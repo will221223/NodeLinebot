@@ -17,6 +17,9 @@ function checkDB(msg){
       lineMsgDB.once('value').then(function(data){
             data.forEach(function(datalist){
                 if(datalist.val().keyword == msg){
+                    console.log('keyin==',datalist.val().keyword)
+                    console.log('msg==',msg)
+                    console.log('datalist.val().keyword == msg',datalist.val().keyword == msg)
                     DBmsg = datalist.val().message
                     resolve(DBmsg)
                 }
@@ -45,6 +48,7 @@ async function learn(msg){
             console.log('await checkDB(msg)==',await checkDB(msg))
            return  await checkDB(msg)
         }catch(err){
+            console.log('err===',err)
             return err
         }
     }
