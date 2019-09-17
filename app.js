@@ -40,33 +40,19 @@ async function judgement(msg){
         let message = received_text.slice(semicolon_index+1)
         
         msg= 'keyword=' + keyword + ', message='+message
+
+        lineMsgDB.once('value').then(function(data){
+            data.forEach(function(datalist){
+              if(datalist.val().keyword == keyword){
+                  return '這句我學過了啦！嫩'
+              }
+          })
+        
         lineMsgDB.push({keyword:keyword,message:message})
         return '我學會啦～'
         break;
     }
-    case '笑話':
-            let rm= Math.floor(Math.random() * ( Math.floor(12) - Math.ceil(1))) + Math.ceil(1);
-            var url=`http://joke.876.tw/show/list_${rm}_${rm}.shtml`
-            request(url, (err, res, body) => {
-            // 把 body 放進 cheerio 準備分析
-                const $ = cheerio.load(body)
-                let weathers = []
-                $('.jlist dd a').each(function(i, elem) {
-                    weathers.push($(this).attr("href"))
-                })
-                let rjoke=weathers[Math.floor(Math.random()*weathers.length)];
-                url=`http://joke.876.tw/show/${rjoke}`
-                request(url, (err, res, body) => {
-                    // 把 body 放進 cheerio 準備分析
-                    const $ = cheerio.load(body)
-                    let weathers = $('.arts_c').text().replace($('p.lnart').text(),"").replace($('p.jtime').text(),"")//$('.arts_c:not(p.jtime)').text()//.not('p.jtime').not('p.lnart').text()//$('.arts_c').not('p.jtime').not('p.lnart').text()
-                    let title=$('.arts_f .arts h1').text();
-                    return event.reply(title+"\r\n\r\n"+weathers.replace('\n','').replace('\t',"").trim());
-                    //console.log(title+"\r\n\r\n"+weathers.replace('\n','').replace('\t',"").trim())
-                })
 
-            })
-            break;
     default:
         {
         try{
