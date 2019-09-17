@@ -43,9 +43,9 @@ async function learn(msg){
     }else{
         try{
             console.log('await checkDB(msg)==',await checkDB(msg))
-            await checkDB(msg)
+           return  await checkDB(msg)
         }catch(err){
-            console.log('err ===',err)
+            return console.log('err ===',err)
         }
     }
 }
