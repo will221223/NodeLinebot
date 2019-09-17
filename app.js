@@ -32,16 +32,16 @@ function learn(msg){
             data.forEach(function(datalist){
                 if(datalist.val().keyword == msg){
                     reply = datalist.val().message
-                    console.log('reply inside=',reply)
+                    console.log('有進來～',reply)
+                    return reply
                 }
             })
         }).then(function(){
-            console.log('有進來～',reply)
-            msg = reply
-            return msg
+            console.log('then裡面～',reply)
+            return reply
         })
-        console.log('msg=',msg )
-        return msg
+        // console.log('msg=',msg )
+        // return msg
     }
 }
 
