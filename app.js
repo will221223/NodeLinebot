@@ -40,9 +40,11 @@ function learn(msg){
         lineMsgDB.push({keyword:keyword,message:message})
         return '我學會啦～'
     }else{
-           return checkDB(msg).then(function(reply){
+           return checkDB(msg)
+           .then(function(reply){
             console.log('reply = ',reply)
-            return reply
+        }).catch(function(){
+            console.log('false')
         })
     }
 }
