@@ -44,8 +44,8 @@ function learn(msg){
     }else{
       
 checkDB(msg).then(function(){
-            console.log('reply = ',reply)
-            return reply
+            console.log('msg = ',msg)
+            // return reply
         })
     }
 }
