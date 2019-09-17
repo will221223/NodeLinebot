@@ -34,10 +34,12 @@ function checkDouble(msg,keyword){
               data.forEach(function(datalist){
                 if(datalist.val().keyword == keyword){
                     haslearned = true
+                    console.log('haslearned==',haslearned)
                     resolve(haslearned)
                     return haslearned
                 }
             })
+            console.log('haslearned false==',haslearned)
                 reject(haslearned)
         })
     })
@@ -56,12 +58,10 @@ async function judgement(msg){
         
         msg= 'keyword=' + keyword + ', message='+message
 
-        var haslearned = false
-
         try{
             await checkDouble(msg,keyword)
             lineMsgDB.push({keyword:keyword,message:message})
-        return '我學會啦～' 
+            return '我學會啦～' 
         }catch(reject){
                 return '這句我學過了啦！'
             }
