@@ -30,9 +30,8 @@ function checkDB(msg,userId){
 }
 //判斷DB是否已有重複學過這句話
 function checkDouble(userId,keyword){
-    var haslearned = false
     return new Promise((resolve, reject) => {
-      lineMsgDB.once('value').then(function(data){
+        lineMsgReceivedDB.once('value').then(function(data){
               data.forEach(function(datalist){
                 if(datalist.val().keyword == keyword){
                     haslearned = true
@@ -41,6 +40,61 @@ function checkDouble(userId,keyword){
                 }
             })
                 resolve(haslearned)
+        })
+    })
+}
+//推齊
+function echo(keyword){
+    try{
+        await checkReceived(keyword)
+        await checkReply(keyword)
+        console.log('await checkReceived(keyword)==',await checkReceived(keyword))
+        console.log('await checkReply(keyword)==',await checkReply(keyword))
+    }catch(reject){
+            console.log('echo reject===',reject)
+        }
+}
+
+function checkReceived(keyword){
+    var countReceived = 0
+    var hadRecieved = false
+    return new Promise((resolve, reject) => {
+        lineMsgReceivedDB.once('value').then(function(data){
+              data.forEach(function(datalist){
+                if(datalist.val().received == keyword){
+                    countReceived += 1
+                }
+            })
+            if(countReceived >= 2){
+                hadRecieved = true
+                conseol.log('hadRecieved true?',hadRecieved)
+                resolve(hadRecieved)
+                return
+            }
+            conseol.log('hadRecieved false?',hadRecieved)
+            reject(hadRecieved)
+        })
+    })
+}
+
+function checkReply(keyword){
+    var countReply = 0
+    var hadReply = false
+    return new Promise((resolve, reject) => {
+        lineMsgReceivedDB.once('value').then(function(data){
+              data.forEach(function(datalist){
+                if(datalist.val().received == keyword){
+                    countReply += 1
+                }
+            })
+            if(countReply >= 1){
+                hadReply = true
+                conseol.log('hadRecieved true?',hadReply)
+                resolve(hadReply)
+                return
+            }
+            conseol.log('hadRecieved false?',hadReply)
+            reject(hadReply)
         })
     })
 }
@@ -80,7 +134,13 @@ async function judgement(msg,userId){
             return await checkDB(msg)
             }catch(reject){
                 lineMsgReceivedDB.push({userId:userId,received:reject})
-                return ''
+                // return ''
+                try{
+                    return await echo(msg)
+                    }catch(reject){
+                        lineMsgReceivedDB.push({userId:userId,received:reject})
+                        return ''
+                    }
             }
         }
         break;
