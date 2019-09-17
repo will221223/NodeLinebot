@@ -46,9 +46,9 @@ async function learn(msg){
         return '我學會啦～'
     }else{
         console.log('await checkDB(msg)==',await checkDB(msg))
-        try{
+        // try{
            return await checkDB(msg)
-        }
+        
     }
 }
 
