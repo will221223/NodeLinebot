@@ -11,23 +11,24 @@ const bot = linebot({
     channelAccessToken: process.env.CHANNEL_ACCESS_TOKEN
 });
 
-function checkDB(msg){
-    return new Promise(function (resolve, reject){
+function checkDB(msg) {
+    return new Promise(function (resolve, reject) {
         lineMsgDB.once('value',function(data){
             data.forEach(function(datalist){
                 if(datalist.val().keyword == msg){
-                let reply = datalist.val().message
-                console.log('success')
+                    let reply = datalist.val().message
+                    console.log('success')
                     return resolve(reply)
+                }else{
+                    console.log('false')
+                    return reject(msg)
                 }
-                console.log('false')
-                return reject(msg)
             })
         })
     })
 }
 
-function learn(msg){
+async function learn(msg){
     if(msg.substr(0,4)=='學說話;'){
         let received_text  = msg.slice(4)
         // console.log('received_text=',received_text)
@@ -42,19 +43,17 @@ function learn(msg){
         lineMsgDB.push({keyword:keyword,message:message})
         return '我學會啦～'
     }else{
-        
-     return checkDB(msg).then(function(reply){
-console.log('then reply===',reply)
-return reply
-     })
+        await checkDB(msg)
+        console.log('msg===',msg)
+        return msg
     }
 }
 
-bot.on('message', function(event) {
+bot.on('message',async function(event) {
     if (event.message.type = 'text') {
         let msg = event.message.text;
         console.log('result=====',learn(msg))
-        event.reply(learn(msg)).then(function(data) {
+        event.reply(await learn(msg)).then(function(data) {
             console.log('reply success')
         }).catch(function(error) {
             console.log('錯誤產生，錯誤碼：'+error);
