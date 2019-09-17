@@ -32,13 +32,19 @@ function checkDouble(msg,keyword){
     return new Promise((resolve, reject) => {
       lineMsgDB.once('value').then(function(data){
               data.forEach(function(datalist){
-                if(datalist.val().keyword !== keyword){
-                    resolve(haslearned)
+                  console.log('keyword1=',datalist.val().keyword)
+                  console.log('keyword2=',keyword)
+                  console.log('keyword same?',datalist.val().keyword == keyword)
+                if(datalist.val().keyword == keyword){
+                    haslearned = true
+                    console.log('haslearned 有進來==',haslearned)
+                    reject(haslearned)
                     return haslearned
                 }
             })
-            haslearned = true
-                reject(haslearned)
+                // haslearned = false
+                console.log('haslearned false==',haslearned)
+                resolve(haslearned)
         })
     })
 }
