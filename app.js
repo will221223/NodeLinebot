@@ -12,18 +12,20 @@ const bot = linebot({
 });
 
 function checkDB(msg){
-   return lineMsgDB.once('value').then(function(data){
-        data.forEach(function(datalist){
-            if(datalist.val().keyword == msg){
-                msg = datalist.val().message
-                console.log('reply===',msg)
-                return msg
-            }
+    var reply
+    return new Promise((resolve,reject) => {
+    lineMsgDB.once('value').then(function(data){
+            data.forEach(function(datalist){
+                if(datalist.val().keyword == reply){
+                    reply = datalist.val().message
+                }
+            })
+            resolve(reply)
         })
     })
 }
 
-async function learn(msg){
+function learn(msg){
     if(msg.substr(0,4)=='學說話;'){
         let received_text  = msg.slice(4)
         // console.log('received_text=',received_text)
@@ -38,7 +40,9 @@ async function learn(msg){
         lineMsgDB.push({keyword:keyword,message:message})
         return '我學會啦～'
     }else{
-        console.log('checkDB(msg)===',await checkDB(msg))
+        checkDB(msg).then(result =>{
+            console.log(result)
+        })
         
     }
 }
