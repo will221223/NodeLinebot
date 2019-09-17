@@ -31,14 +31,14 @@ function learn(msg){
         lineMsgDB.once('value',function(data){
             data.forEach(function(datalist){
                 if(datalist.val().keyword == msg){
-                    reply = datalist.val().message
+                   return  reply = datalist.val().message
                 }
             })
         }).then(function(){
             console.log('then裡面～',reply)
             return reply
         })
-        console.log('reply=',reply )
+        // console.log('reply=',reply )
         // return msg
     }
 }
