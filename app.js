@@ -12,13 +12,12 @@ const bot = linebot({
 });
 
 function checkDB(msg){
-    msg = toString(msg)
     var DBmsg
     return new Promise((resolve, reject) => {
       lineMsgDB.once('value').then(function(data){
             data.forEach(function(datalist){
-                if(datalist.val().keyword === msg){
-                    DBmsg = toString(datalist.val().message)
+                if(datalist.val().keyword == msg){
+                    DBmsg = datalist.val().message
                     console.log('DBmsg==',DBmsg)
                     resolve(DBmsg)
                     return DBmsg
@@ -32,7 +31,6 @@ function checkDB(msg){
 }
 
 async function learn(msg){
-    msg = toString(msg)
     if(msg.substr(0,4)=='學說話;'){
         let received_text  = msg.slice(4)
         // console.log('received_text=',received_text)
