@@ -36,8 +36,8 @@ function learn(msg){
                 }
             })
         })
-        console.log('reply = ',reply)
-        return reply
+        // console.log('reply = ',reply)
+        // return reply
         // .then(function(){
         // })
         // return msg
