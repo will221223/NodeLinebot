@@ -64,6 +64,7 @@ async function judgement(msg){
             lineMsgDB.push({keyword:keyword,message:message})
             return '我學會啦～' 
         }catch(reject){
+            console.log('promise==',await checkDouble(msg,keyword))
                 return '這句我學過了啦！'
             }
 
