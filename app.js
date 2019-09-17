@@ -83,7 +83,8 @@ async function judgement(msg){
 bot.on('message',async function(event) {
     if (event.message.type = 'text') {
         let msg = event.message.text;
-        console.log('source==',event.source)
+        console.log('profile==',event.source.profile)
+        console.log('member==',event.source.member)
         console.log('userId==',event.source.userId)
         event.reply(await judgement(msg)).then(function(data) {
             console.log('reply success')
