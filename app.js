@@ -12,18 +12,13 @@ const bot = linebot({
 });
 
 function checkDB(msg) {
-    return new Promise(function (resolve, reject) {
-        lineMsgDB.once('value',function(data){
-            data.forEach(function(datalist){
-                if(datalist.val().keyword == msg){
-                    let reply = datalist.val().message
-                    console.log('success')
-                    return resolve(reply)
-                }else{
-                    console.log('false')
-                    return reject(msg)
-                }
-            })
+    lineMsgDB.once('value',function(data){
+        data.forEach(function(datalist){
+            if(datalist.val().keyword == msg){
+                let reply = datalist.val().message
+                console.log('reply===',reply)
+                return reply
+            }
         })
     })
 }
@@ -43,9 +38,7 @@ async function learn(msg){
         lineMsgDB.push({keyword:keyword,message:message})
         return '我學會啦～'
     }else{
-        await checkDB(msg).resolve(reply)
-        console.log('reply===',reply)
-        return reply
+        return await checkDB(msg)
     }
 }
 
