@@ -34,7 +34,7 @@ function learn(msg){
                     reply = datalist.val().message
                     // console.log('reply inside=',reply)
                     console.log('有進來～',reply)
-                return reply
+                return msg = reply
                 }
             })
         })
