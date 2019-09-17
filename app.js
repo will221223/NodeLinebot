@@ -48,10 +48,10 @@ async function echo(keyword){
     try{
         await checkReceived(keyword)
         await checkReply(keyword)
-        if(await checkReceived(keyword) && await checkReply(keyword)){
-            console.log('有打過不說話～')
-        }else{
+        if(await checkReceived(keyword) ==true && await checkReply(keyword) ==false){
             console.log('該推齊了～')
+        }else{
+            console.log('不說話～')
         }
         
     }catch(reject){
@@ -72,11 +72,11 @@ function checkReceived(keyword){
             console.log('countReceived==',countReceived)
             if(countReceived >= 2){
                 hadRecieved = true
-                console.log('有打過 true?',hadRecieved)
+                console.log('有收過 true?',hadRecieved)
                 resolve(hadRecieved)
                 return
             }
-            console.log('有打過 false?',hadRecieved)
+            console.log('有收過 false?',hadRecieved)
             reject(hadRecieved)
         })
     })
@@ -95,11 +95,11 @@ function checkReply(keyword){
             console.log('countReply==',countReply)
             if(countReply >= 1){
                 hadReply = true
-                console.log('有收過 true?',hadReply)
+                console.log('有打過 true?',hadReply)
                 resolve(hadReply)
                 return
             }
-            console.log('有收過 false?',hadReply)
+            console.log('有打過 false?',hadReply)
             reject(hadReply)
         })
     })
