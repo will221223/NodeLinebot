@@ -48,8 +48,12 @@ async function echo(keyword){
     try{
         await checkReceived(keyword)
         await checkReply(keyword)
-        console.log('await checkReceived(keyword)==',await checkReceived(keyword))
-        console.log('await checkReply(keyword)==',await checkReply(keyword))
+        if(await checkReceived(keyword) && await checkReply(keyword)){
+            console.log('有打過不說話～')
+        }else{
+            console.log('該推齊了～')
+        }
+        
     }catch(reject){
             console.log('echo reject===',reject)
         }
@@ -62,9 +66,10 @@ function checkReceived(keyword){
         lineMsgReceivedDB.once('value').then(function(data){
               data.forEach(function(datalist){
                 if(datalist.val().received == keyword){
-                    countReceived += 1
+                    countReceived ++
                 }
             })
+            console.log('countReceived==',countReceived)
             if(countReceived >= 2){
                 hadRecieved = true
                 console.log('有打過 true?',hadRecieved)
@@ -84,16 +89,17 @@ function checkReply(keyword){
         lineMsgReceivedDB.once('value').then(function(data){
               data.forEach(function(datalist){
                 if(datalist.val().received == keyword){
-                    countReply += 1
+                    countReply ++
                 }
             })
+            console.log('countReply==',countReply)
             if(countReply >= 1){
                 hadReply = true
                 console.log('有收過 true?',hadReply)
                 resolve(hadReply)
                 return
             }
-            conseol.log('有收過 false?',hadReply)
+            console.log('有收過 false?',hadReply)
             reject(hadReply)
         })
     })
