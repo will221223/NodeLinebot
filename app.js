@@ -40,13 +40,15 @@ function learn(msg){
         return '我學會啦～'
     }else{
         let reply
-        console.log('checkDB(msg)==',checkDB(msg))
-        checkDB(msg).then(result =>{
+        console.log('checkDB(msg)==', checkDB(msg).then(result =>{
             reply = result
             return reply
         })
-        console.log('reply=',reply)
-        return reply
+        )
+       return  checkDB(msg).then(result =>{
+            reply = result
+            return reply
+        })
     }
 }
 
