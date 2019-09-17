@@ -43,15 +43,17 @@ async function judgement(msg){
 
         lineMsgDB.once('value').then(function(data){
             data.forEach(function(datalist){
+                console.log('keyword=',keyword)
               if(datalist.val().keyword == keyword){
+                  console.log('有進來')
                   return '這句我學過了啦！嫩'
               }
           })
-        })
-        
         lineMsgDB.push({keyword:keyword,message:message})
         return '我學會啦～'
         break;
+        })
+
     }
 
     default:
