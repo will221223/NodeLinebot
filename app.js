@@ -11,6 +11,22 @@ const bot = linebot({
     channelAccessToken: process.env.CHANNEL_ACCESS_TOKEN
 });
 
+function checkDB(msg){
+    return new Promise(function (resolve, reject){
+        lineMsgDB.once('value',function(data){
+            data.forEach(function(datalist){
+                if(datalist.val().keyword == msg){
+                let reply = datalist.val().message
+                console.log('success')
+                    return resolve(reply)
+                }
+                console.log('false')
+                return reject(msg)
+            })
+        })
+    })
+}
+
 function learn(msg){
     if(msg.substr(0,4)=='學說話;'){
         let received_text  = msg.slice(4)
@@ -26,22 +42,8 @@ function learn(msg){
         lineMsgDB.push({keyword:keyword,message:message})
         return '我學會啦～'
     }else{
-        function checkDB(msg){
-            return new Promise(function (resolve, reject){
-                lineMsgDB.once('value',function(data){
-                    data.forEach(function(datalist){
-                        if(datalist.val().keyword == msg){
-                        let reply = datalist.val().message
-                        console.log('success')
-                            return resolve(reply)
-                        }
-                        console.log('false')
-                        return reject(msg)
-                    })
-                })
-            })
-        }
-     checkDB(msg).then(function(reply){
+        
+     return checkDB(msg).then(function(reply){
 console.log('then reply===',reply)
 return reply
      })
