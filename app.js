@@ -16,7 +16,9 @@ function checkDB(msg){
       return  lineMsgDB.once('value').then(function(data){
             data.forEach(function(datalist){
                 if(datalist.val().keyword == msg){
+                    console.log('msg==',msg)
                     reply = datalist.val().message
+                    console.log('reply inside==',reply)
                 }
             })
             console.log('reply==',reply)
@@ -39,7 +41,6 @@ function learn(msg){
         lineMsgDB.push({keyword:keyword,message:message})
         return '我學會啦～'
     }else{
-        console.log('msg==',msg)
         checkDB(msg).then(result =>{
             console.log('result==',result)
         })
