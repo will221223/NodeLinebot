@@ -44,7 +44,7 @@ function checkDouble(userId,keyword){
     })
 }
 //推齊
-function echo(keyword){
+async function echo(keyword){
     try{
         await checkReceived(keyword)
         await checkReply(keyword)
