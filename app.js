@@ -67,7 +67,7 @@ function checkDB(msg,userId){
 function checkDouble(userId,keyword){
     var haslearned =false
     return new Promise((resolve, reject) => {
-        lineMsgReceivedDB.once('value').then(function(data){
+        lineMsgDB.once('value').then(function(data){
               data.forEach(function(datalist){
                   console.log('datalist.val().keyword==',datalist.val().keyword)
                 if(datalist.val().keyword == keyword){
