@@ -16,7 +16,7 @@ const opts = {
     json: true
 };
  
-function queryWeather(SiteName){
+async function queryWeather(SiteName){
     rp(opts).then(function (repos) {
     let data;
     let send;
