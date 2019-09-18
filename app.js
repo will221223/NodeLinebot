@@ -29,8 +29,8 @@ function queryWeather(SiteName){
             break;
         }
     }
-    // console.log(data);
-    return('send==',send)
+    console.log('send=',send);
+    return send
     })
     .catch(function (err) {
     console.log('無法取得該地區空氣品質資料～請確認地區名稱是否正確～');
@@ -173,6 +173,7 @@ async function judgement(msg,userId){
                 }else if(semicolon_index == 3){
                      SiteName  = msg.slice(4)
                 }
+                console.log('queryWeather(SiteName)=',queryWeather(SiteName))
                 return queryWeather(SiteName)
         }
         break;
