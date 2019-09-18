@@ -226,9 +226,11 @@ async function judgement(msg,userId){
                         money: weather[6].trim(),//.substring(2),
                       }))  
                       AllString=weathers[0].intro+"\r\n"+weathers[0].all+"\r\n"+weathers[0].love+"\r\n"+weathers[0].work+"\r\n"+weathers[0].money;
+                      console.log('AllString inside==',AllString)
                     })
+                    console.log('AllString middle==',AllString)
                 }
-                console.log(AllString)
+                console.log('AllString outside==',AllString)
                 return AllString
             }
             catch{
