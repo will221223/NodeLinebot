@@ -167,10 +167,11 @@ async function judgement(msg,userId){
         break;
         case ('查天氣;'):{
             let semicolon_index = msg.indexOf(';')
+            let SiteName
                 if(semicolon_index == -1){
                     return '是不是沒有加分號;咧？汪！'
                 }else if(semicolon_index == 3){
-                    let SiteName  = msg.slice(4)
+                     SiteName  = msg.slice(4)
                 }
                 return queryWeather(SiteName)
         }
