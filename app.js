@@ -84,7 +84,7 @@ function checkReceived(keyword){
     var countReceived = 0
     var hadRecieved = false
     return new Promise((resolve, reject) => {
-        lineMsgReceivedDB.orderBy('received',desc).once('value').then(function(data){
+        lineMsgReceivedDB.orderBy('received','desc').once('value').then(function(data){
             console.log(data.val())
               data.forEach(function(datalist){
                 if(datalist.val().received == keyword){
@@ -201,6 +201,7 @@ bot.on('message',async function(event) {
     //     }
     // }
 });
+
 
 const linebotParser = bot.parser();
 app.get("/", function (req, res) { 
