@@ -181,7 +181,11 @@ async function judgement(msg,userId){
                 }else if(semicolon_index == 3){
                      SiteName  = msg.slice(4)
                 }
+            try{
                 return queryWeather(SiteName)
+                }catch(reject){
+                 return reject
+                } 
         }
         break;
 
