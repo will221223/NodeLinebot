@@ -110,43 +110,33 @@ function checkReceived(keyword){
     return new Promise((resolve, reject) => {
         lineMsgReceivedDB.orderByKey().limitToLast(5).once('value').then(function(data){
             data.forEach(function(datalist){
-                    // console.log('Received datalist==',datalist.val())
                 if(datalist.val().received == keyword){
                     countReceived ++
                 }
             })
-            // console.log('countReceived==',countReceived)
             if(countReceived >= 2){
                 hadRecieved = true
-                // console.log('有收過 true?',hadRecieved)
                 resolve(hadRecieved)
                 return
             }
-            // console.log('有收過 false?',hadRecieved)
             reject(hadRecieved)
         })
     })
 }
 
 function checkReply(keyword){
-    // var countReply = 0
     var hadNoReply = true
     return new Promise((resolve, reject) => {
         lineMsgReplyDB.orderByKey().limitToLast(1).once('value').then(function(data){
             data.forEach(function(datalist){
-                    // console.log('reply datalist==',datalist.val())
                 if(datalist.val().reply == keyword){
-                    // countReply ++
                     hadNoReply = false
                 }
             })
-            // console.log('countReply==',countReply)
             if(!hadNoReply){
-                // console.log('有打過 true?',hadReply)
                 reject(hadNoReply)
                 return
             }
-            // console.log('有打過 false?',hadReply)
             resolve(hadNoReply)
         })
     })
@@ -223,6 +213,9 @@ bot.on('message',async function(event) {
         let msg = event.message.text
         let userId = event.source.userId
 
+        console.log( 'userId==',event.source.userId);
+        console.log( 'groupId==',event.source.groupId);
+
         var Stype={"水瓶":10,"雙魚":11,"牡羊":0,"金牛":1,"雙子":2,"巨蟹":3,"獅子":4,"處女":5,"天秤":6,"天蠍":7,"射手":8,"魔羯":9}
 		if(Stype.hasOwnProperty(msg))
 		{
@@ -257,6 +250,7 @@ bot.on('message',async function(event) {
             console.log('錯誤產生，錯誤碼：'+error);
         });
     }
+
     bot.on('join', function (event) {
         event.reply('輸入help獲得相關指令');
       });
