@@ -142,7 +142,7 @@ async function judgement(msg,userId){
             return await checkDB(msg)
             }catch(reject){
                 try{
-                    return await echo(userId,msg)
+                    return await echo(msg,userId)
                     }catch(reject){
                         lineMsgReceivedDB.push({userId:userId,received:reject})
                         return ''
