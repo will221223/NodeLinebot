@@ -10,7 +10,7 @@ const rp = require('request-promise');
 const app = express();
 app.set('view engine', 'ejs');
 
-const SiteName = '鳳山';
+// const SiteName = '鳳山';
 const opts = {
     uri: "http://opendata2.epa.gov.tw/AQI.json",
     json: true
@@ -35,7 +35,7 @@ function queryWeather(SiteName){
     .catch(function (err) {
     console.log('無法取得該地區空氣品質資料～請確認地區名稱是否正確～');
     });
-// }
+}
 
 //設定linebot
 const bot = linebot({
