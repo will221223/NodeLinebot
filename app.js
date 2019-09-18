@@ -184,6 +184,12 @@ async function judgement(msg,userId){
                 return queryWeather(SiteName)
         }
         break;
+
+        case ('help'):{
+            const txt="指令：\r\n輸入星座，獲取今日運勢，如「金牛」\r\n輸入「查空氣;所在縣市」，獲取今日PM2.5值，如「查空氣;大寮」\r\n輸入「學說話;關鍵字;機器人回覆」，如「學說話;test;test success」"
+            return txt
+        }
+        break;
                
         // else {
         default:{
@@ -242,22 +248,10 @@ bot.on('message',async function(event) {
             console.log('錯誤產生，錯誤碼：'+error);
         });
     }
+    bot.on('join', function (event) {
+        event.reply('輸入help獲得相關指令');
+      });
     
-    // switch (event.message.type) {
-	
-	// 	case 'text':
-	// 		switch (msg) {				
-	// 			case '二哈':
-	// 				return event.reply('愛吃屎')
-	// 				break;
-	// 			case '安安':
-	// 			return event.reply('安')
-	// 			break;
-	// 			case '吃什麼':
-	// 			return event.reply('屎')
-	// 			break;	
-    //     }
-    // }
 });
 
 
