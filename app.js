@@ -202,8 +202,6 @@ bot.on('message',async function(event) {
     // }
 });
 
-const app = express();
-
 const linebotParser = bot.parser();
 app.get("/", function (req, res) { 
     console.log(bot)
