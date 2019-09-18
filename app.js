@@ -9,7 +9,7 @@ const rp = require('request-promise');
 const app = express();
 app.set('view engine', 'ejs');
 
-const County = '高雄';
+const County = '高雄市';
 const opts = {
     uri: "http://opendata2.epa.gov.tw/AQI.json",
     json: true
@@ -92,7 +92,7 @@ function checkReceived(keyword){
     return new Promise((resolve, reject) => {
         lineMsgReceivedDB.once('value').then(function(data){
             lineMsgReceivedDB.orderByChild('received').once('value'),function(data){
-                console.log(data)
+                console.log('orderByChild==',data)
             }
               data.forEach(function(datalist){
                 if(datalist.val().received == keyword){
