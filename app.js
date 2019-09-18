@@ -38,12 +38,13 @@ function queryWeather(SiteName){
     })
     .catch(function (err) {
         reject('無法取得該地區空氣品質資料～請確認地區名稱是否正確～');
-    });
+    })
   })
 }
 
 //查星座
 function queryFortune(keyword){
+    return new Promise((resolve, reject) => {
     var Stype={"水瓶":10,"雙魚":11,"牡羊":0,"金牛":1,"雙子":2,"巨蟹":3,"獅子":4,"處女":5,"天秤":6,"天蠍":7,"射手":8,"魔羯":9}
 		if(Stype.hasOwnProperty(keyword))
 		{
@@ -67,11 +68,14 @@ function queryFortune(keyword){
 				work: weather[5].trim(),//.substring(2),
 				money: weather[6].trim(),//.substring(2),
 			  }))  
-			  var AllString=weathers[0].intro+"\r\n"+weathers[0].all+"\r\n"+weathers[0].love+"\r\n"+weathers[0].work+"\r\n"+weathers[0].money;
+              var AllString=weathers[0].intro+"\r\n"+weathers[0].all+"\r\n"+weathers[0].love+"\r\n"+weathers[0].work+"\r\n"+weathers[0].money;
+              console.log(AllString)
+                resolve(AllString)
+                return AllString
 			})
 		}
-        console.log(AllString)
-        return AllString
+                reject('找運勢錯誤');
+    })
 }
 
 //設定linebot
