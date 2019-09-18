@@ -6,6 +6,7 @@ const lineMsgDB = firebaseDB.ref('lineMsg')
 const lineMsgReplyDB = firebaseDB.ref('ineMsgReply')
 const lineMsgReceivedDB = firebaseDB.ref('lineMsgReceived')
 const rp = require('request-promise');
+const request = require('request');
 
 const app = express();
 app.set('view engine', 'ejs');
