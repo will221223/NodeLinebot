@@ -16,6 +16,7 @@ const opts = {
     json: true
 };
  
+//查天氣
 function queryWeather(SiteName){
     return new Promise((resolve, reject) => {
     rp(opts).then(function (repos) {
@@ -39,6 +40,37 @@ function queryWeather(SiteName){
     });
   })
 }
+
+//查星座
+// function queryFortune(){
+    var Stype={"水瓶":10,"雙魚":11,"牡羊":0,"金牛":1,"雙子":2,"巨蟹":3,"獅子":4,"處女":5,"天秤":6,"天蠍":7,"射手":8,"魔羯":9}
+		if(Stype.hasOwnProperty(event.message.text))
+		{
+			var Today=new Date();
+			var Y=Today.getFullYear()
+				,M=(parseInt(Today.getMonth())<10) ? "0"+(Today.getMonth()+1) : (Today.getMonth()+1)
+				,D=(parseInt(Today.getDate())<10) ? "0"+Today.getDate() : Today.getDate()
+			let fullDate= Y+"-"+M+"-"+D
+			var url=`http://astro.click108.com.tw/daily_${Stype[event.message.text]}.php?iAcDay=${fullDate}&iAstro=${Stype[event.message.text]}`
+			request(url, (err, res, body) => {
+			// 把 body 放進 cheerio 準備分析
+			const $ = cheerio.load(body)
+			let weathers = []
+			$('.TODAY_CONTENT').each(function(i, elem) {
+				weathers.push($(this).text().split('\n'))
+			})
+			weathers = weathers.map(weather => ({
+				intro:weather[1].trim(),
+				all: weather[2].trim(),//.substring(2).split(' ')[0],
+				love: weather[3].trim(),//.substring(2),
+				work: weather[5].trim(),//.substring(2),
+				money: weather[6].trim(),//.substring(2),
+			  }))  
+			  var AllString=weathers[0].intro+"\r\n"+weathers[0].all+"\r\n"+weathers[0].love+"\r\n"+weathers[0].work+"\r\n"+weathers[0].money;
+			  console.log(AllString)
+			})
+		}
+// }
 
 //設定linebot
 const bot = linebot({
@@ -69,7 +101,6 @@ function checkDouble(userId,keyword){
     return new Promise((resolve, reject) => {
         lineMsgDB.once('value').then(function(data){
               data.forEach(function(datalist){
-                  console.log('datalist.val().keyword==',datalist.val().keyword)
                 if(datalist.val().keyword == keyword){
                     haslearned = true
                     reject(haslearned)
@@ -173,6 +204,17 @@ async function judgement(msg,userId){
         }
         break;
         case ('查空氣;'):{
+            let semicolon_index = msg.indexOf(';')
+            let SiteName
+                if(semicolon_index == -1){
+                    return '是不是沒有加分號;咧？汪！'
+                }else if(semicolon_index == 3){
+                     SiteName  = msg.slice(4)
+                }
+                return queryWeather(SiteName)
+        }
+        break;
+        case ('查星座;'):{
             let semicolon_index = msg.indexOf(';')
             let SiteName
                 if(semicolon_index == -1){
