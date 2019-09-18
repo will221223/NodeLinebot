@@ -49,6 +49,7 @@ async function echo(keyword){
         await checkReceived(keyword)
         await checkReply(keyword)
         if(await checkReceived(keyword) && await checkReply(keyword)){
+            lineMsgReplyDB.push({userId:userId,reply:keyword})
             return keyword
         }else{
             console.log('不說話～')
@@ -140,8 +141,6 @@ async function judgement(msg,userId){
             try{
             return await checkDB(msg)
             }catch(reject){
-                // lineMsgReceivedDB.push({userId:userId,received:reject})
-                // return ''
                 try{
                     return await echo(msg)
                     }catch(reject){
