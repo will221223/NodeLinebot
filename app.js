@@ -228,7 +228,12 @@ async function judgement(msg,userId){
                 }else if(semicolon_index == 3){
                     keyword  = msg.slice(4)
                 }
-                return queryFortune(keyword)
+               
+            try{                    
+            return await queryFortune(keyword)
+            }catch(reject){
+            return reject
+            }
         }
         break;
         
