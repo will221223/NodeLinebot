@@ -17,21 +17,19 @@ const aqiOpt = {
 
 function readAQI(repos,Message){
 	let data=Message.split('_');
-    
     for (i in repos) {
         if (repos[i].SiteName == data[1] && repos[i].County==data[0]) {
             return repos[i];
             //break;
         }
     }
- 
     return data;
 }
 
 app.get('/',function(req,res){
     rp(aqiOpt)
     .then(function (repos) {
-        res.render('index', {AQI:readAQI(repos)});
+        res.render('./views/index', {AQI:readAQI(repos)});
     })
     .catch(function (err) {
 		res.send("無法取得空氣品質資料～");
