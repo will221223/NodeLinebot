@@ -229,12 +229,12 @@ async function judgement(msg,userId){
                 }else if(semicolon_index == 3){
                     keyword  = msg.slice(4)
                 }
-                try{
+                // try{
                     console.log('有進來查運勢＝＝',await queryFortune(keyword))
-                    // return await queryFortune(keyword)
-                }catch(reject){
-                        return '???'
-                    }        
+                    return await queryFortune(keyword)
+                // }catch(reject){
+                //         return reject
+                //     }        
         }
         break;
         
