@@ -16,7 +16,7 @@ const opts = {
     json: true
 };
  
-// function queryWeather(SiteName){
+function queryWeather(SiteName){
     rp(opts).then(function (repos) {
     let data;
     let send;
@@ -29,8 +29,8 @@ const opts = {
             break;
         }
     }
-    console.log(data);
-    console.log('send==',send)
+    // console.log(data);
+    return('send==',send)
     })
     .catch(function (err) {
     console.log('無法取得該地區空氣品質資料～請確認地區名稱是否正確～');
@@ -140,9 +140,6 @@ function checkReply(keyword){
 }
 
 async function judgement(msg,userId){
-    lineMsgReceivedDB.orderByChild('received').once('value'),function(data){
-        console.log('orderByChild==',data)
-    }
     lineMsgReceivedDB.push({userId:userId,received:msg})
     switch (msg.substr(0,4)){
         case ('學說話;'):{
