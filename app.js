@@ -32,18 +32,16 @@ function queryWeather(SiteName){
             break;
         }
     }
-    if(send){
-    console.log('send=',send);
-    resolve(send)
-    return send
-}
-else{
-    console.log(' else err===',err)
-    return reject(err);
-}
+        if(send){
+        console.log('send=',send);
+        resolve(send)
+        return send
+        }else{
+            resolve(err)
+        return err
+        }
     })
     .catch(function (err) {
-        console.log('err===',err)
         reject(err);
     })
   })
