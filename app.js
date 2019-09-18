@@ -65,8 +65,8 @@ function checkReceived(keyword){
     var hadRecieved = false
     return new Promise((resolve, reject) => {
         lineMsgReceivedDB.once('value').then(function(data){
+            console.log(data.val())
               data.forEach(function(datalist){
-                  console.log(datalist.val())
                 if(datalist.val().received == keyword){
                     countReceived ++
                 }
