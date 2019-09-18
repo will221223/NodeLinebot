@@ -22,6 +22,7 @@ function queryWeather(SiteName){
     rp(opts).then(function (repos) {
     let data;
     let send;
+    let err = '無法取得該地區空氣品質資料～請確認地區名稱是否正確～'
     for (i in repos) {
         if (repos[i].SiteName  == SiteName) {
             data = repos[i];
@@ -36,12 +37,13 @@ function queryWeather(SiteName){
     resolve(send)
     return send
 }
+else{
+    return '無法取得該地區空氣品質資料～請確認地區名稱是否正確～'
+}
     })
     .catch(function (err) {
-        if(!send){
         console.log('err===',err)
-        reject('無法取得該地區空氣品質資料～請確認地區名稱是否正確～');
-    }
+        reject(err);
     })
   })
 }
