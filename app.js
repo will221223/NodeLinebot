@@ -86,6 +86,7 @@ async function echo(keyword,userId){
         if(await checkReceived(keyword) && await checkReply(keyword)){
             lineMsgReplyDB.push({userId:userId,reply:keyword})
             lineMsgReceivedDB.set({})
+            lineMsgReplyDB.set({})
             return keyword
         }else{
             console.log('不說話～')
@@ -99,7 +100,7 @@ function checkReceived(keyword){
     var countReceived = 0
     var hadRecieved = false
     return new Promise((resolve, reject) => {
-        lineMsgReceivedDB.once('value').then(function(data){
+        lineMsgReceivedDB.orderByKey().limitToLast(5).once('value').then(function(data){
              console.log('Received data==',data.val())    
             data.forEach(function(datalist){
                     console.log('Received datalist==',datalist.val())
@@ -180,7 +181,6 @@ async function judgement(msg,userId){
                 }else if(semicolon_index == 3){
                      SiteName  = msg.slice(4)
                 }
-                // console.log('queryWeather(SiteName)=',await queryWeather(SiteName))
                 return queryWeather(SiteName)
         }
         break;
