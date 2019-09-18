@@ -43,16 +43,16 @@ function queryWeather(SiteName){
 }
 
 //查星座
-// function queryFortune(){
+function queryFortune(keyword){
     var Stype={"水瓶":10,"雙魚":11,"牡羊":0,"金牛":1,"雙子":2,"巨蟹":3,"獅子":4,"處女":5,"天秤":6,"天蠍":7,"射手":8,"魔羯":9}
-		if(Stype.hasOwnProperty('天蠍'))
+		if(Stype.hasOwnProperty(keyword))
 		{
 			var Today=new Date();
 			var Y=Today.getFullYear()
 				,M=(parseInt(Today.getMonth())<10) ? "0"+(Today.getMonth()+1) : (Today.getMonth()+1)
 				,D=(parseInt(Today.getDate())<10) ? "0"+Today.getDate() : Today.getDate()
 			let fullDate= Y+"-"+M+"-"+D
-			var url=`http://astro.click108.com.tw/daily_${Stype['天蠍']}.php?iAcDay=${fullDate}&iAstro=${Stype['天蠍']}`
+			var url=`http://astro.click108.com.tw/daily_${Stype[keyword]}.php?iAcDay=${fullDate}&iAstro=${Stype[keyword]}`
 			request(url, (err, res, body) => {
 			// 把 body 放進 cheerio 準備分析
 			const $ = cheerio.load(body)
@@ -68,10 +68,11 @@ function queryWeather(SiteName){
 				money: weather[6].trim(),//.substring(2),
 			  }))  
 			  var AllString=weathers[0].intro+"\r\n"+weathers[0].all+"\r\n"+weathers[0].love+"\r\n"+weathers[0].work+"\r\n"+weathers[0].money;
-			  console.log(AllString)
+              console.log(AllString)
+              return AllString
 			})
 		}
-// }
+}
 
 //設定linebot
 const bot = linebot({
@@ -217,13 +218,13 @@ async function judgement(msg,userId){
         break;
         case ('查星座;'):{
             let semicolon_index = msg.indexOf(';')
-            let SiteName
+            let keyword
                 if(semicolon_index == -1){
                     return '是不是沒有加分號;咧？汪！'
                 }else if(semicolon_index == 3){
-                     SiteName  = msg.slice(4)
+                    keyword  = msg.slice(4)
                 }
-                return queryWeather(SiteName)
+                return queryFortune(keyword)
         }
         break;
         
