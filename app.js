@@ -121,26 +121,25 @@ function checkReceived(keyword){
 }
 
 function checkReply(keyword){
-    var countReply = 0
-    var hadReply = false
+    // var countReply = 0
+    var hadNoReply = true
     return new Promise((resolve, reject) => {
         lineMsgReplyDB.orderByKey().limitToLast(1).once('value').then(function(data){
             data.forEach(function(datalist){
                     console.log('reply datalist==',datalist.val())
                 if(datalist.val().reply == keyword){
-                    countReply ++
+                    // countReply ++
+                    hadNoReply = false
                 }
             })
             // console.log('countReply==',countReply)
-            if(countReply >= 1){
-                hadReply =false
+            if(!hadNoReply){
                 // console.log('有打過 true?',hadReply)
-                reject(hadReply)
+                reject(hadNoReply)
                 return
             }
-            hadReply = true
             // console.log('有打過 false?',hadReply)
-            resolve(hadReply)
+            resolve(hadNoReply)
         })
     })
 }
