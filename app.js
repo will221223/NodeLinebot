@@ -101,7 +101,7 @@ function checkReceived(keyword){
     var hadRecieved = false
     return new Promise((resolve, reject) => {
         lineMsgReceivedDB.orderByKey().limitToLast(5).once('value').then(function(data){
-             console.log('Received data==',data.val())    
+             console.log('Received data==',data.val())
             data.forEach(function(datalist){
                     console.log('Received datalist==',datalist.val())
                 if(datalist.val().received == keyword){
@@ -125,8 +125,8 @@ function checkReply(keyword){
     var countReply = 0
     var hadReply = false
     return new Promise((resolve, reject) => {
-        lineMsgReplyDB.orderByChild('reply').once('value').then(function(data){
-            console.log('reply data==',data.val())    
+        lineMsgReplyDB.orderByKey().limitToLast(1).once('value').then(function(data){
+            console.log('Received data==',data.val())
             data.forEach(function(datalist){
                     console.log('reply datalist==',datalist.val())
                 if(datalist.val().reply == keyword){
