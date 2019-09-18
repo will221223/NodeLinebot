@@ -38,7 +38,7 @@ function queryWeather(SiteName){
     return send
 }
 else{
-    console.log('查空氣失敗～')
+    return '查空氣失敗～請確認地區名稱是否正確～'
 }
     })
     .catch(function (err) {
