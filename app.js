@@ -4,6 +4,23 @@ const firebaseDB = require('./firebase_admin');
 const lineMsgDB = firebaseDB.ref('lineMsg')
 const lineMsgReplyDB = firebaseDB.ref('ineMsgReply')
 const lineMsgReceivedDB = firebaseDB.ref('lineMsgReceived')
+const rp = require('request-promise');
+ 
+const SITE_NAME = '西屯';
+const opts = {
+    uri: "http://opendata2.epa.gov.tw/AQI.json",
+    json: true
+};
+ 
+app.get('/',function(req,res){
+    rp(aqiOpt)
+    .then(function (repos) {
+        res.render('index', {AQI:readAQI(repos)});
+    })
+    .catch(function (err) {
+		res.send("無法取得空氣品質資料～");
+    });
+});
 
 //設定linebot
 const bot = linebot({
@@ -64,7 +81,7 @@ function checkReceived(keyword){
     var countReceived = 0
     var hadRecieved = false
     return new Promise((resolve, reject) => {
-        lineMsgReceivedDB.once('value').then(function(data){
+        lineMsgReceivedDB.orderBy('received',desc).once('value').then(function(data){
             console.log(data.val())
               data.forEach(function(datalist){
                 if(datalist.val().received == keyword){
