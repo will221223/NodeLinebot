@@ -69,6 +69,7 @@ function checkDouble(userId,keyword){
     return new Promise((resolve, reject) => {
         lineMsgReceivedDB.once('value').then(function(data){
               data.forEach(function(datalist){
+                  console.log('datalist.val().keyword==',datalist.val().keyword)
                 if(datalist.val().keyword == keyword){
                     haslearned = true
                     reject(haslearned)
