@@ -200,6 +200,7 @@ async function judgement(msg,userId){
                 }else if(semicolon_index == 3){
                     keyword  = msg.slice(4)
                 }
+                
                 var Stype={"水瓶":10,"雙魚":11,"牡羊":0,"金牛":1,"雙子":2,"巨蟹":3,"獅子":4,"處女":5,"天秤":6,"天蠍":7,"射手":8,"魔羯":9}
                 if(Stype.hasOwnProperty(keyword))
                 {
@@ -224,11 +225,14 @@ async function judgement(msg,userId){
                         money: weather[6].trim(),//.substring(2),
                       }))  
                       var AllString=weathers[0].intro+"\r\n"+weathers[0].all+"\r\n"+weathers[0].love+"\r\n"+weathers[0].work+"\r\n"+weathers[0].money;
-                      console.log(AllString)
-                        // resolve(AllString)
-                        return AllString
+                    //   console.log(AllString)
+                    //     // resolve(AllString)
+                    //     return AllString
                     })
                 }
+                console.log(AllString)
+                // resolve(AllString)
+                return AllString
         }
         break;
         
