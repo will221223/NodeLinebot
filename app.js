@@ -1,5 +1,6 @@
 const linebot = require('linebot');
 const express = require('express');
+const cheerio = require('cheerio')
 const firebaseDB = require('./firebase_admin');
 const lineMsgDB = firebaseDB.ref('lineMsg')
 const lineMsgReplyDB = firebaseDB.ref('ineMsgReply')
@@ -9,26 +10,31 @@ const rp = require('request-promise');
 const app = express();
 app.set('view engine', 'ejs');
 
-const County = '高雄市';
+// const SiteName = '高雄市';
 const opts = {
     uri: "http://opendata2.epa.gov.tw/AQI.json",
     json: true
 };
  
-// function queryWeather(county){
-rp(opts).then(function (repos) {
-let data;
-for (i in repos) {
-    if (repos[i].County == County) {
-        data = repos[i];
-        break;
+// function queryWeather(SiteName){
+    rp(opts).then(function (repos) {
+    let data;
+    let send;
+    for (i in repos) {
+        if (repos[i].SiteName  == SiteName) {
+            data = repos[i];
+            send = (data.County + data.SiteName +
+						'\n\nPM2.5指數：'+ data["PM2.5_AVG"] + 
+						'\n狀態：' + data.Status)
+            break;
+        }
     }
-}
-console.log(data);
-})
-.catch(function (err) {
-console.log('無法取得空氣品質資料～');
-});
+    console.log(data);
+    console.log('send==',send)
+    })
+    .catch(function (err) {
+    console.log('無法取得該地區空氣品質資料～請確認地區名稱是否正確～');
+    });
 // }
 
 //設定linebot
@@ -91,9 +97,6 @@ function checkReceived(keyword){
     var hadRecieved = false
     return new Promise((resolve, reject) => {
         lineMsgReceivedDB.once('value').then(function(data){
-            lineMsgReceivedDB.orderByChild('received').once('value'),function(data){
-                console.log('orderByChild==',data)
-            }
               data.forEach(function(datalist){
                 if(datalist.val().received == keyword){
                     countReceived ++
@@ -137,6 +140,9 @@ function checkReply(keyword){
 }
 
 async function judgement(msg,userId){
+    lineMsgReceivedDB.orderByChild('received').once('value'),function(data){
+        console.log('orderByChild==',data)
+    }
     lineMsgReceivedDB.push({userId:userId,received:msg})
     switch (msg.substr(0,4)){
         case ('學說話;'):{
@@ -162,7 +168,16 @@ async function judgement(msg,userId){
                 }
         }
         break;
-
+        case ('查天氣;'):{
+            let semicolon_index = msg.indexOf(';')
+                if(semicolon_index == -1){
+                    return '是不是沒有加分號;咧？汪！'
+                }else if(semicolon_index == 3){
+                    let SiteName  = msg.slice(4)
+                }
+                return queryWeather(SiteName)
+        }
+        break;
         
         // else {
         default:{
@@ -183,7 +198,7 @@ async function judgement(msg,userId){
 }
 
 bot.on('message',async function(event) {
-    if (event.message.type = 'text') {
+    if (event.message.text !== undefined) {
         let msg = event.message.text
         let userId = event.source.userId
         event.reply(await judgement(msg,userId)).then(function(data) {
