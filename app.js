@@ -86,7 +86,7 @@ async function echo(keyword,userId){
         if(await checkReceived(keyword) && await checkReply(keyword)){
             lineMsgReplyDB.push({userId:userId,reply:keyword})
             lineMsgReceivedDB.set({})
-            lineMsgReplyDB.set({})
+            // lineMsgReplyDB.set({})
             return keyword
         }else{
             console.log('不說話～')
