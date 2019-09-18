@@ -43,7 +43,7 @@ function queryWeather(SiteName){
 }
 
 //查星座
-function queryFortune(keyword){
+async function queryFortune(keyword){
     return new Promise((resolve, reject) => {
     var Stype={"水瓶":10,"雙魚":11,"牡羊":0,"金牛":1,"雙子":2,"巨蟹":3,"獅子":4,"處女":5,"天秤":6,"天蠍":7,"射手":8,"魔羯":9}
 		if(Stype.hasOwnProperty(keyword))
@@ -74,7 +74,7 @@ function queryFortune(keyword){
                 return AllString
 			})
 		}
-                reject('找運勢錯誤');
+         reject('找運勢錯誤');
     })
 }
 
@@ -230,6 +230,7 @@ async function judgement(msg,userId){
                 }
                
             try{                    
+                console.log('await queryFortune(keyword)==',await queryFortune(keyword))
             return await queryFortune(keyword)
             }catch(reject){
             return reject
