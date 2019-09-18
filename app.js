@@ -68,10 +68,10 @@ function queryFortune(keyword){
 				money: weather[6].trim(),//.substring(2),
 			  }))  
 			  var AllString=weathers[0].intro+"\r\n"+weathers[0].all+"\r\n"+weathers[0].love+"\r\n"+weathers[0].work+"\r\n"+weathers[0].money;
-              console.log(AllString)
-              return AllString
 			})
 		}
+        console.log(AllString)
+        return AllString
 }
 
 //設定linebot
