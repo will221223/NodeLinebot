@@ -94,11 +94,11 @@ function checkReply(keyword){
             })
             console.log('countReply==',countReply)
             if(countReply >= 1){
+                hadReply = true
                 console.log('有打過 true?',hadReply)
                 reject(hadReply)
                 return
             }
-            hadReply = true
             console.log('有打過 false?',hadReply)
             resolve(hadReply)
         })
