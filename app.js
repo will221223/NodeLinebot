@@ -38,8 +38,8 @@ function queryWeather(SiteName){
     return send
 }
 else{
-    console.log('err===',err)
-    return err
+    console.log(' else err===',err)
+    return reject(err);
 }
     })
     .catch(function (err) {
