@@ -38,7 +38,8 @@ function queryWeather(SiteName){
     return send
 }
 else{
-    return '無法取得該地區空氣品質資料～請確認地區名稱是否正確～'
+    console.log('err===',err)
+    return err
 }
     })
     .catch(function (err) {
