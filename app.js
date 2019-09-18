@@ -10,7 +10,7 @@ const rp = require('request-promise');
 const app = express();
 app.set('view engine', 'ejs');
 
-// const SiteName = '高雄市';
+const SiteName = '鳳山';
 const opts = {
     uri: "http://opendata2.epa.gov.tw/AQI.json",
     json: true
