@@ -202,6 +202,7 @@ async function judgement(msg,userId){
                 }
                 
                 var Stype={"水瓶":10,"雙魚":11,"牡羊":0,"金牛":1,"雙子":2,"巨蟹":3,"獅子":4,"處女":5,"天秤":6,"天蠍":7,"射手":8,"魔羯":9}
+                try{
                 if(Stype.hasOwnProperty(keyword))
                 {
                     var Today=new Date();
@@ -233,6 +234,10 @@ async function judgement(msg,userId){
                 console.log(AllString)
                 // resolve(AllString)
                 return AllString
+            }
+            catch{
+                return '找運勢錯誤'
+            }
         }
         break;
         
