@@ -32,12 +32,16 @@ function queryWeather(SiteName){
             break;
         }
     }
+    if(send){
     console.log('send=',send);
     resolve(send)
     return send
+}else{
+    reject('無法取得該地區空氣品質資料～請確認地區名稱是否正確～');
+}
     })
     .catch(function (err) {
-        reject('無法取得該地區空氣品質資料～請確認地區名稱是否正確～');
+        console.log('查空氣失敗～')
     })
   })
 }
