@@ -100,7 +100,9 @@ function checkReceived(keyword){
     var hadRecieved = false
     return new Promise((resolve, reject) => {
         lineMsgReceivedDB.once('value').then(function(data){
-              data.forEach(function(datalist){
+            console.log('data==',data)    
+            data.forEach(function(datalist){
+                    console.log('datalist==',datalist)
                 if(datalist.val().received == keyword){
                     countReceived ++
                 }
@@ -123,7 +125,9 @@ function checkReply(keyword){
     var hadReply = false
     return new Promise((resolve, reject) => {
         lineMsgReplyDB.orderByChild('reply').once('value').then(function(data){
-                data.forEach(function(datalist){
+            console.log('data==',data)    
+            data.forEach(function(datalist){
+                    console.log('datalist==',datalist)
                 if(datalist.val().reply == keyword){
                     countReply ++
                 }
@@ -168,7 +172,7 @@ async function judgement(msg,userId){
                 }
         }
         break;
-        case ('查天氣;'):{
+        case ('查空氣;'):{
             let semicolon_index = msg.indexOf(';')
             let SiteName
                 if(semicolon_index == -1){
