@@ -9,27 +9,27 @@ const rp = require('request-promise');
 const app = express();
 app.set('view engine', 'ejs');
 
-const SITE_NAME = '西屯';
+const County = '高雄';
 const opts = {
     uri: "http://opendata2.epa.gov.tw/AQI.json",
     json: true
 };
  
-rp(opts)
-.then(function (repos) {
-    let data;
-    
-    for (i in repos) {
-        if (repos[i].SiteName == SITE_NAME) {
-            data = repos[i];
-            break;
-        }
+// function queryWeather(county){
+rp(opts).then(function (repos) {
+let data;
+for (i in repos) {
+    if (repos[i].County == County) {
+        data = repos[i];
+        break;
     }
-    console.log(data);
+}
+console.log(data);
 })
 .catch(function (err) {
-    console.log('無法取得空氣品質資料～');
+console.log('無法取得空氣品質資料～');
 });
+// }
 
 //設定linebot
 const bot = linebot({
