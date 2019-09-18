@@ -224,11 +224,10 @@ async function judgement(msg,userId){
               All=weathers[0].intro+"\r\n"+weathers[0].all+"\r\n"+weathers[0].love+"\r\n"+weathers[0].work+"\r\n"+weathers[0].money;
               AllString = All
                 console.log('AllString inside==',AllString)
-              return AllString 
             })
          }
-        // console.log('AllString outside==',AllString)
-        // return AllString
+        console.log('AllString outside==',AllString)
+        return AllString
         }
         break;
         
