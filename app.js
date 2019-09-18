@@ -10,30 +10,25 @@ const app = express();
 app.set('view engine', 'ejs');
 
 const SITE_NAME = '西屯';
-const aqiOpt = {
+const opts = {
     uri: "http://opendata2.epa.gov.tw/AQI.json",
     json: true
 };
-
-function readAQI(repos,Message){
-	let data=Message.split('_');
+ 
+rp(opts)
+.then(function (repos) {
+    let data;
+    
     for (i in repos) {
-        if (repos[i].SiteName == data[1] && repos[i].County==data[0]) {
-            return repos[i];
-            //break;
+        if (repos[i].SiteName == SITE_NAME) {
+            data = repos[i];
+            break;
         }
     }
-    return data;
-}
-
-app.get('/',function(req,res){
-    rp(aqiOpt)
-    .then(function (repos) {
-        res.render('./views/index', {AQI:readAQI(repos)});
-    })
-    .catch(function (err) {
-		res.send("無法取得空氣品質資料～");
-    });
+    console.log(data);
+})
+.catch(function (err) {
+    console.log('無法取得空氣品質資料～');
 });
 
 //設定linebot
@@ -96,7 +91,7 @@ function checkReceived(keyword){
     var hadRecieved = false
     return new Promise((resolve, reject) => {
         lineMsgReceivedDB.once('value').then(function(data){
-            lineMsgReceivedDB.orderByChild('received').limitToLast(5).once('value'),function(data){
+            lineMsgReceivedDB.orderByChild('received').once('value'),function(data){
                 console.log(data)
             }
               data.forEach(function(datalist){
