@@ -44,7 +44,7 @@ function checkDouble(userId,keyword){
     })
 }
 //推齊
-async function echo(keyword){
+async function echo(keyword,userId){
     try{
         await checkReceived(keyword)
         await checkReply(keyword)
@@ -142,7 +142,7 @@ async function judgement(msg,userId){
             return await checkDB(msg)
             }catch(reject){
                 try{
-                    return await echo(msg)
+                    return await echo(userId,msg)
                     }catch(reject){
                         lineMsgReceivedDB.push({userId:userId,received:reject})
                         return ''
