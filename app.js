@@ -17,6 +17,7 @@ const opts = {
 };
  
 function queryWeather(SiteName){
+    return new Promise((resolve, reject) => {
     rp(opts).then(function (repos) {
     let data;
     let send;
@@ -30,11 +31,11 @@ function queryWeather(SiteName){
         }
     }
     console.log('send=',send);
+    resolve(send)
     return send
     })
-    .catch(function (err) {
-    console.log('無法取得該地區空氣品質資料～請確認地區名稱是否正確～');
-    });
+    reject('無法取得該地區空氣品質資料～請確認地區名稱是否正確～')
+   })
 }
 
 //設定linebot
@@ -173,8 +174,8 @@ async function judgement(msg,userId){
                 }else if(semicolon_index == 3){
                      SiteName  = msg.slice(4)
                 }
-                console.log('queryWeather(SiteName)=',queryWeather(SiteName))
-                // return queryWeather(SiteName)
+                console.log('queryWeather(SiteName)=', await queryWeather(SiteName))
+                return await queryWeather(SiteName)
         }
         break;
         
