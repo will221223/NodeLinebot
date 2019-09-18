@@ -44,39 +44,7 @@ function queryWeather(SiteName){
 
 //查星座
 function queryFortune(keyword){
-        var AllString
-        var Stype={"水瓶":10,"雙魚":11,"牡羊":0,"金牛":1,"雙子":2,"巨蟹":3,"獅子":4,"處女":5,"天秤":6,"天蠍":7,"射手":8,"魔羯":9}
-        if(Stype.hasOwnProperty(keyword))
-        {
-            var Today=new Date();
-            var Y=Today.getFullYear()
-                ,M=(parseInt(Today.getMonth())<10) ? "0"+(Today.getMonth()+1) : (Today.getMonth()+1)
-                ,D=(parseInt(Today.getDate())<10) ? "0"+Today.getDate() : Today.getDate()
-            let fullDate= Y+"-"+M+"-"+D
-            var url=`http://astro.click108.com.tw/daily_${Stype[keyword]}.php?iAcDay=${fullDate}&iAstro=${Stype[keyword]}`
-            return new Promise((resolve, reject) => {
-           request(url, (err, res, body) => {
-            // 把 body 放進 cheerio 準備分析
-            const $ = cheerio.load(body)
-            let weathers = []
-            $('.TODAY_CONTENT').each(function(i, elem) {
-                weathers.push($(this).text().split('\n'))
-            })
-            weathers = weathers.map(weather => ({
-                intro:weather[1].trim(),
-                all: weather[2].trim(),//.substring(2).split(' ')[0],
-                love: weather[3].trim(),//.substring(2),
-                work: weather[5].trim(),//.substring(2),
-                money: weather[6].trim(),//.substring(2),
-              }))  
-              AllString=weathers[0].intro+"\r\n"+weathers[0].all+"\r\n"+weathers[0].love+"\r\n"+weathers[0].work+"\r\n"+weathers[0].money;
-              console.log('AllString inside==',AllString)
-              resolve(AllString)
-              return AllString
-            })
-            reject('找運勢錯誤');
-            })
-        }
+        
 }
 
 //設定linebot
@@ -229,12 +197,38 @@ async function judgement(msg,userId){
                 }else if(semicolon_index == 3){
                     keyword  = msg.slice(4)
                 }
-                // try{
-                    console.log('有進來查運勢＝＝',await queryFortune(keyword))
-                    return await queryFortune(keyword)
-                // }catch(reject){
-                //         return reject
-                //     }        
+        var AllString
+        var Stype={"水瓶":10,"雙魚":11,"牡羊":0,"金牛":1,"雙子":2,"巨蟹":3,"獅子":4,"處女":5,"天秤":6,"天蠍":7,"射手":8,"魔羯":9}
+        if(Stype.hasOwnProperty(keyword))
+        {
+            var Today=new Date();
+            var Y=Today.getFullYear()
+                ,M=(parseInt(Today.getMonth())<10) ? "0"+(Today.getMonth()+1) : (Today.getMonth()+1)
+                ,D=(parseInt(Today.getDate())<10) ? "0"+Today.getDate() : Today.getDate()
+            let fullDate= Y+"-"+M+"-"+D
+            var url=`http://astro.click108.com.tw/daily_${Stype[keyword]}.php?iAcDay=${fullDate}&iAstro=${Stype[keyword]}`
+           request(url, (err, res, body) => {
+            // 把 body 放進 cheerio 準備分析
+            const $ = cheerio.load(body)
+            let weathers = []
+            $('.TODAY_CONTENT').each(function(i, elem) {
+                weathers.push($(this).text().split('\n'))
+            })
+            weathers = weathers.map(weather => ({
+                intro:weather[1].trim(),
+                all: weather[2].trim(),//.substring(2).split(' ')[0],
+                love: weather[3].trim(),//.substring(2),
+                work: weather[5].trim(),//.substring(2),
+                money: weather[6].trim(),//.substring(2),
+              }))
+              All=weathers[0].intro+"\r\n"+weathers[0].all+"\r\n"+weathers[0].love+"\r\n"+weathers[0].work+"\r\n"+weathers[0].money;
+              AllString = All
+                console.log('AllString inside==',AllString)
+              return AllString 
+            })
+         }
+        // console.log('AllString outside==',AllString)
+        // return AllString
         }
         break;
         
