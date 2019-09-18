@@ -96,7 +96,9 @@ function checkReceived(keyword){
     var hadRecieved = false
     return new Promise((resolve, reject) => {
         lineMsgReceivedDB.once('value').then(function(data){
-            console.log(lineMsgReceivedDB.orderByChild('received'))
+            lineMsgReceivedDB.orderByChild('received').limitToLast(5).once('value'),function(data){
+                console.log(data)
+            }
               data.forEach(function(datalist){
                 if(datalist.val().received == keyword){
                     countReceived ++
