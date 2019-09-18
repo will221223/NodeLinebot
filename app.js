@@ -14,7 +14,20 @@ const aqiOpt = {
     uri: "http://opendata2.epa.gov.tw/AQI.json",
     json: true
 };
+
+function readAQI(repos,Message){
+	let data=Message.split('_');
+    
+    for (i in repos) {
+        if (repos[i].SiteName == data[1] && repos[i].County==data[0]) {
+            return repos[i];
+            //break;
+        }
+    }
  
+    return data;
+}
+
 app.get('/',function(req,res){
     rp(aqiOpt)
     .then(function (repos) {
@@ -84,8 +97,8 @@ function checkReceived(keyword){
     var countReceived = 0
     var hadRecieved = false
     return new Promise((resolve, reject) => {
-        lineMsgReceivedDB.orderByChild('received','desc').once('value').then(function(data){
-            console.log(data.val())
+        lineMsgReceivedDB.once('value').then(function(data){
+            console.log(lineMsgReceivedDB.orderByChild('received'))
               data.forEach(function(datalist){
                 if(datalist.val().received == keyword){
                     countReceived ++
