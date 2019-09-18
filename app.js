@@ -66,18 +66,19 @@ function checkReceived(keyword){
     return new Promise((resolve, reject) => {
         lineMsgReceivedDB.once('value').then(function(data){
               data.forEach(function(datalist){
+                  console.log(datalist.val())
                 if(datalist.val().received == keyword){
                     countReceived ++
                 }
             })
-            console.log('countReceived==',countReceived)
+            // console.log('countReceived==',countReceived)
             if(countReceived >= 2){
                 hadRecieved = true
-                console.log('有收過 true?',hadRecieved)
+                // console.log('有收過 true?',hadRecieved)
                 resolve(hadRecieved)
                 return
             }
-            console.log('有收過 false?',hadRecieved)
+            // console.log('有收過 false?',hadRecieved)
             reject(hadRecieved)
         })
     })
@@ -93,15 +94,15 @@ function checkReply(keyword){
                     countReply ++
                 }
             })
-            console.log('countReply==',countReply)
+            // console.log('countReply==',countReply)
             if(countReply >= 1){
                 hadReply =false
-                console.log('有打過 true?',hadReply)
+                // console.log('有打過 true?',hadReply)
                 reject(hadReply)
                 return
             }
             hadReply = true
-            console.log('有打過 false?',hadReply)
+            // console.log('有打過 false?',hadReply)
             resolve(hadReply)
         })
     })
