@@ -34,8 +34,10 @@ function queryWeather(SiteName){
     resolve(send)
     return send
     })
-    reject('無法取得該地區空氣品質資料～請確認地區名稱是否正確～')
-   })
+    .catch(function (err) {
+        reject('無法取得該地區空氣品質資料～請確認地區名稱是否正確～');
+    });
+  })
 }
 
 //設定linebot
@@ -174,8 +176,8 @@ async function judgement(msg,userId){
                 }else if(semicolon_index == 3){
                      SiteName  = msg.slice(4)
                 }
-                console.log('queryWeather(SiteName)=', await queryWeather(SiteName))
-                return await queryWeather(SiteName)
+                console.log('queryWeather(SiteName)=',await queryWeather(SiteName))
+                // return queryWeather(SiteName)
         }
         break;
         
