@@ -173,8 +173,12 @@ async function judgement(msg,userId){
                 }else if(semicolon_index == 3){
                      SiteName  = msg.slice(4)
                 }
-                console.log('queryWeather(SiteName)=',await queryWeather(SiteName))
-                return await queryWeather(SiteName)
+                try{
+                    console.log('queryWeather(SiteName)=',await queryWeather(SiteName))
+                    return await queryWeather(SiteName)
+                }catch(reject){
+                    console.log('reject==',reject)
+                }
         }
         break;
         
