@@ -5,9 +5,12 @@ const lineMsgDB = firebaseDB.ref('lineMsg')
 const lineMsgReplyDB = firebaseDB.ref('ineMsgReply')
 const lineMsgReceivedDB = firebaseDB.ref('lineMsgReceived')
 const rp = require('request-promise');
- 
+
+const app = express();
+app.set('view engine', 'ejs');
+
 const SITE_NAME = '西屯';
-const opts = {
+const aqiOpt = {
     uri: "http://opendata2.epa.gov.tw/AQI.json",
     json: true
 };
