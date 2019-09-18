@@ -16,7 +16,7 @@ const opts = {
     json: true
 };
  
-async function queryWeather(SiteName){
+function queryWeather(SiteName){
     rp(opts).then(function (repos) {
     let data;
     let send;
@@ -173,12 +173,8 @@ async function judgement(msg,userId){
                 }else if(semicolon_index == 3){
                      SiteName  = msg.slice(4)
                 }
-                try{
-                    console.log('queryWeather(SiteName)=',await queryWeather(SiteName))
-                    return await queryWeather(SiteName)
-                }catch(reject){
-                    console.log('reject==',reject)
-                }
+                console.log('queryWeather(SiteName)=',queryWeather(SiteName))
+                // return queryWeather(SiteName)
         }
         break;
         
