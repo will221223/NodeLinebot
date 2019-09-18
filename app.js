@@ -65,6 +65,7 @@ function checkDB(msg,userId){
 }
 //判斷DB是否已有重複學過這句話
 function checkDouble(userId,keyword){
+    var haslearned =false
     return new Promise((resolve, reject) => {
         lineMsgReceivedDB.once('value').then(function(data){
               data.forEach(function(datalist){
@@ -102,7 +103,7 @@ function checkReceived(keyword){
     return new Promise((resolve, reject) => {
         lineMsgReceivedDB.orderByKey().limitToLast(5).once('value').then(function(data){
             data.forEach(function(datalist){
-                    console.log('Received datalist==',datalist.val())
+                    // console.log('Received datalist==',datalist.val())
                 if(datalist.val().received == keyword){
                     countReceived ++
                 }
@@ -126,7 +127,7 @@ function checkReply(keyword){
     return new Promise((resolve, reject) => {
         lineMsgReplyDB.orderByKey().limitToLast(1).once('value').then(function(data){
             data.forEach(function(datalist){
-                    console.log('reply datalist==',datalist.val())
+                    // console.log('reply datalist==',datalist.val())
                 if(datalist.val().reply == keyword){
                     // countReply ++
                     hadNoReply = false
