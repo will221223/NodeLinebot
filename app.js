@@ -39,7 +39,6 @@ function queryWeather(SiteName){
 }
 else{
     console.log('查空氣失敗～')
-    reject('無法取得該地區空氣品質資料～請確認地區名稱是否正確～');
 }
     })
     .catch(function (err) {
