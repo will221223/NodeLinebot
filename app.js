@@ -217,7 +217,7 @@ async function judgement(msg,userId,groupId){
         break;
                
         default:
-           return  judgeLearnOrNot(msg,userId)
+           return  judgeLearnOrNot(msg,userId,groupId)
            break;
     }
 }
