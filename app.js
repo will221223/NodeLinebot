@@ -206,7 +206,8 @@ try{
 }
 
 async function judgement(msg,userId,groupId){
-    // lineMsgReceivedDB.push({groupId:groupId,userId:userId,received:msg})
+    lineMsgReceivedDB.push({groupId:groupId,userId:userId,received:msg})
+    
     switch (msg.substr(0,4)){
         case ('學說話;'):{
             return leanKeywordSpeak(msg,userId,groupId)
