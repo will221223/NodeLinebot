@@ -16,7 +16,14 @@ const opts = {
     json: true
 };
  
-//查天氣
+//設定linebot
+const bot = linebot({
+    channelId: process.env.CHANNEL_ID,
+    channelSecret: process.env.CHANNEL_SECRET,
+    channelAccessToken: process.env.CHANNEL_ACCESS_TOKEN
+});
+
+//查空氣
 function getWeather(SiteName){
     return new Promise((resolve, reject) => {
     rp(opts).then(function (repos) {
@@ -47,12 +54,6 @@ function getWeather(SiteName){
   })
 }
 
-//設定linebot
-const bot = linebot({
-    channelId: process.env.CHANNEL_ID,
-    channelSecret: process.env.CHANNEL_SECRET,
-    channelAccessToken: process.env.CHANNEL_ACCESS_TOKEN
-});
 //因firebase.once('value')是非同步事件，需要使用Promise來接
 //判斷DB是否已有關鍵字
 function checkDB(msg,userId,groupId){
@@ -92,6 +93,9 @@ function checkDouble(groupId,keyword){
 }
 //推齊
 async function echo(keyword,userId,groupId){
+    //判斷同群組內收到的訊息是否重複
+    //不重複回上一句回覆的訊息
+   //若兩者都是true就推齊
     try{
         await checkReceived(keyword,groupId)
         await checkReply(keyword,groupId)
@@ -146,6 +150,7 @@ function checkReply(keyword,groupId){
     })
 }
 
+//學關鍵字說話
 async function leanKeywordSpeak(msg,userId,groupId){
     let received_text  = msg.slice(4)
     let semicolon_index = received_text.indexOf(';')
@@ -169,7 +174,8 @@ async function leanKeywordSpeak(msg,userId,groupId){
         }
 }
 
-async function queryWeather(msg){
+//查空氣PM2.5
+async function queryPM25(msg){
     let semicolon_index = msg.indexOf(';')
             let SiteName
                 if(semicolon_index == -1){
@@ -184,8 +190,9 @@ async function queryWeather(msg){
                 } 
 }
 
+// 判斷同群組內有無學過關鍵字，若無，則判斷訊息是否重複說，重複的話就推齊
+//若沒學過也沒重複說過，則不說話
 async function judgeLearnOrNot(msg,userId,groupId){
-// 判斷有沒有學過關鍵字
 try{
     return await checkDB(msg,userId,groupId)
     }catch(reject){
@@ -199,14 +206,14 @@ try{
 }
 
 async function judgement(msg,userId,groupId){
-    lineMsgReceivedDB.push({groupId:groupId,userId:userId,received:msg})
+    // lineMsgReceivedDB.push({groupId:groupId,userId:userId,received:msg})
     switch (msg.substr(0,4)){
         case ('學說話;'):{
             return leanKeywordSpeak(msg,userId,groupId)
         }
         break;
         case ('查空氣;'):{
-            return queryWeather(msg)
+            return queryPM25(msg)
         }
         break;
 
@@ -227,8 +234,6 @@ bot.on('message',async function(event) {
         let msg = event.message.text
         let userId = event.source.userId
         let groupId = event.source.groupId || 'no group Id'
-        console.log( 'userId==',userId);
-        console.log( 'groupId==',groupId);
 
         var Stype={"水瓶":10,"雙魚":11,"牡羊":0,"金牛":1,"雙子":2,"巨蟹":3,"獅子":4,"處女":5,"天秤":6,"天蠍":7,"射手":8,"魔羯":9}
 		if(Stype.hasOwnProperty(msg))
