@@ -207,7 +207,7 @@ try{
 
 async function judgement(msg,userId,groupId){
     lineMsgReceivedDB.push({groupId:groupId,userId:userId,received:msg})
-    
+
     switch (msg.substr(0,4)){
         case ('學說話;'):{
             return leanKeywordSpeak(msg,userId,groupId)
@@ -230,8 +230,10 @@ async function judgement(msg,userId,groupId){
     }
 }
 
-bot.on('message',async function(event) {
+//文字回覆部份
+function replyWithText(event){
     if (event.message.text !== undefined) {
+        
         let msg = event.message.text
         let userId = event.source.userId
         let groupId = event.source.groupId || 'no group Id'
@@ -270,6 +272,10 @@ bot.on('message',async function(event) {
             console.log('錯誤產生，錯誤碼：'+error);
         });
     }
+}
+
+bot.on('message',async function(event) {
+    replyWithText(event)
 
     bot.on('join', function (event) {
         event.reply('輸入help獲得相關指令');
