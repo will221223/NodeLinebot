@@ -77,7 +77,6 @@ function checkDouble(groupId,keyword){
         lineMsgDB.once('value').then(function(data){
               data.forEach(function(datalist){
                 if(datalist.val().keyword == keyword && datalist.val().groupId == groupId){
-                    console.log(groupId)
                     haslearned = true
                     reject(haslearned)
                     return haslearned
@@ -144,9 +143,6 @@ function checkReply(keyword){
 }
 
 async function leanKeywordSpeak(msg,userId,groupId){
-    if(!groupId){
-        groupId = ''
-    }
     let received_text  = msg.slice(4)
     let semicolon_index = received_text.indexOf(';')
         if(semicolon_index == -1){
@@ -226,7 +222,7 @@ bot.on('message',async function(event) {
     if (event.message.text !== undefined) {
         let msg = event.message.text
         let userId = event.source.userId
-        let groupId = event.source.groupId
+        let groupId = event.source.groupId || 'no group Id'
         console.log( 'userId==',userId);
         console.log( 'groupId==',groupId);
 
