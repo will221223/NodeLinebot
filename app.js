@@ -63,8 +63,7 @@ function checkDB(msg,userId,groupId){
     return new Promise((resolve, reject) => {
       lineMsgDB.once('value').then(function(data){
               data.forEach(function(datalist){
-                console.log('DB的groupId==',datalist.val().groupId)
-                console.log('傳來的 groupId ==', groupId)
+                  //如果說的話＆同群組符合>回傳關鍵字
                 if(datalist.val().keyword == msg && datalist.val().groupId == groupId){
                     DBmsg = datalist.val().message
                     resolve(DBmsg)
@@ -92,11 +91,11 @@ function checkDouble(groupId,keyword){
     })
 }
 //推齊
-async function echo(keyword,userId){
+async function echo(keyword,userId,groupId){
     try{
-        await checkReceived(keyword)
-        await checkReply(keyword)
-        if(await checkReceived(keyword) && await checkReply(keyword)){
+        await checkReceived(keyword,groupId)
+        await checkReply(keyword,groupId)
+        if(await checkReceived(keyword,groupId) && await checkReply(keyword,groupId)){
             lineMsgReplyDB.push({userId:userId,reply:keyword})
             lineMsgReceivedDB.set({})
             // lineMsgReplyDB.set({})
@@ -109,13 +108,13 @@ async function echo(keyword,userId){
         }
 }
 
-function checkReceived(keyword){
+function checkReceived(keyword,groupId){
     var countReceived = 0
     var hadRecieved = false
     return new Promise((resolve, reject) => {
         lineMsgReceivedDB.orderByKey().limitToLast(5).once('value').then(function(data){
             data.forEach(function(datalist){
-                if(datalist.val().received == keyword){
+                if(datalist.val().received == keyword && datalist.val().groupId == groupId){
                     countReceived ++
                 }
             })
@@ -129,12 +128,12 @@ function checkReceived(keyword){
     })
 }
 
-function checkReply(keyword){
+function checkReply(keyword,groupId){
     var hadNoReply = true
     return new Promise((resolve, reject) => {
         lineMsgReplyDB.orderByKey().limitToLast(1).once('value').then(function(data){
             data.forEach(function(datalist){
-                if(datalist.val().reply == keyword){
+                if(datalist.val().reply == keyword && datalist.val().groupId == groupId){
                     hadNoReply = false
                 }
             })
@@ -191,16 +190,16 @@ try{
     return await checkDB(msg,userId,groupId)
     }catch(reject){
         try{
-            return await echo(msg,userId)
+            return await echo(msg,userId,groupId)
             }catch(reject){
-                lineMsgReceivedDB.push({userId:userId,received:reject})
+                lineMsgReceivedDB.push({groupId:groupId,userId:userId,received:reject})
                 return ''
             }
     }
 }
 
 async function judgement(msg,userId,groupId){
-    lineMsgReceivedDB.push({userId:userId,received:msg})
+    lineMsgReceivedDB.push({groupId:groupId,userId:userId,received:msg})
     switch (msg.substr(0,4)){
         case ('學說話;'):{
             return leanKeywordSpeak(msg,userId,groupId)
