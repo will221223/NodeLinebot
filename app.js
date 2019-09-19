@@ -198,11 +198,11 @@ async function judgement(msg,userId,groupId){
     lineMsgReceivedDB.push({userId:userId,received:msg})
     switch (msg.substr(0,4)){
         case ('學說話;'):{
-            leanKeywordSpeak(msg,userId,groupId)
+            return leanKeywordSpeak(msg,userId,groupId)
         }
         break;
         case ('查空氣;'):{
-            queryWeather(msg)
+            return queryWeather(msg)
         }
         break;
 
@@ -213,7 +213,7 @@ async function judgement(msg,userId,groupId){
         break;
                
         default:
-            judgeLearnOrNot(msg,userId)
+           return  judgeLearnOrNot(msg,userId)
            break;
     }
 }
