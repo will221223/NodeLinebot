@@ -230,7 +230,7 @@ async function judgement(msg,userId,groupId){
     }
 }
 
-function getDaliyLucky(msg){
+function getDaliyLucky(msg,Stype){
     {
         var Today=new Date();
         var Y=Today.getFullYear()
@@ -267,7 +267,7 @@ bot.on('message',async function(event) {
 
         var Stype={"水瓶":10,"雙魚":11,"牡羊":0,"金牛":1,"雙子":2,"巨蟹":3,"獅子":4,"處女":5,"天秤":6,"天蠍":7,"射手":8,"魔羯":9}
 		if(Stype.hasOwnProperty(msg)){
-            console.log(getDaliyLucky(msg))
+            console.log(getDaliyLucky(msg,Stype))
         }
 		
 
