@@ -71,12 +71,12 @@ function checkDB(msg,userId){
     })
 }
 //判斷DB是否已有重複學過這句話
-function checkDouble(userId,keyword){
+function checkDouble(groupId,keyword){
     var haslearned =false
     return new Promise((resolve, reject) => {
         lineMsgDB.once('value').then(function(data){
               data.forEach(function(datalist){
-                if(datalist.val().keyword == keyword){
+                if(datalist.val().keyword == keyword && groupId== groupId){
                     haslearned = true
                     reject(haslearned)
                     return haslearned
@@ -142,7 +142,7 @@ function checkReply(keyword){
     })
 }
 
-async function judgement(msg,userId){
+async function judgement(msg,userId,groupId){
     lineMsgReceivedDB.push({userId:userId,received:msg})
     switch (msg.substr(0,4)){
         case ('學說話;'):{
@@ -158,12 +158,12 @@ async function judgement(msg,userId){
             msg= 'keyword=' + keyword + ', message='+message
             // 判斷有沒有學過
             try{
-                await checkDouble(msg,keyword)
-                lineMsgDB.push({keyword:keyword,message:message})
-                lineMsgReplyDB.push({userId:userId,reply:'我學會啦～'})
+                await checkDouble(groupId,keyword)
+                lineMsgDB.push({groupId:groupId,keyword:keyword,message:message})
+                lineMsgReplyDB.push({groupId:groupId,userId:userId,reply:'我學會啦～'})
                 return '我學會啦～' 
             }catch(reject){
-                lineMsgReplyDB.push({userId:userId,reply:'這句我學過了啦！'})
+                lineMsgReplyDB.push({groupId:groupId,userId:userId,reply:'這句我學過了啦！'})
                     return '這句我學過了啦！'
                 }
         }
@@ -212,9 +212,9 @@ bot.on('message',async function(event) {
     if (event.message.text !== undefined) {
         let msg = event.message.text
         let userId = event.source.userId
-
-        console.log( 'userId==',event.source.userId);
-        console.log( 'groupId==',event.source.groupId);
+        let groupId = event.source.groupId
+        console.log( 'userId==',userId);
+        console.log( 'groupId==',groupId);
 
         var Stype={"水瓶":10,"雙魚":11,"牡羊":0,"金牛":1,"雙子":2,"巨蟹":3,"獅子":4,"處女":5,"天秤":6,"天蠍":7,"射手":8,"魔羯":9}
 		if(Stype.hasOwnProperty(msg))
@@ -244,7 +244,7 @@ bot.on('message',async function(event) {
 			})
 		}
 
-        event.reply(await judgement(msg,userId)).then(function(data) {
+        event.reply(await judgement(msg,userId,groupId)).then(function(data) {
             console.log('reply success')
         }).catch(function(error) {
             console.log('錯誤產生，錯誤碼：'+error);
@@ -254,9 +254,7 @@ bot.on('message',async function(event) {
     bot.on('join', function (event) {
         event.reply('輸入help獲得相關指令');
       });
-    
 });
-
 
 const linebotParser = bot.parser();
 app.get("/", function (req, res) { 
