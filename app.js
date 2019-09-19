@@ -237,7 +237,8 @@ function getDaliyLucky(msg,Stype){
             ,M=(parseInt(Today.getMonth())<10) ? "0"+(Today.getMonth()+1) : (Today.getMonth()+1)
             ,D=(parseInt(Today.getDate())<10) ? "0"+Today.getDate() : Today.getDate()
         let fullDate= Y+"-"+M+"-"+D
-        var url=`http://astro.click108.com.tw/daily_${Stype[msg]}.php?iAcDay=${fullDate}&iAstro=${Stype[msg]}`
+        var url=`http://astro.click108.com.tw/daily_${Stype[msg]}.php?iAcDay=${fullDate}&iAstro=${Stype[event.message.text]}`
+        console.log('url===',url)
         request(url, (err, res, body) => {
         // 把 body 放進 cheerio 準備分析
         const $ = cheerio.load(body)
@@ -267,7 +268,7 @@ bot.on('message',async function(event) {
 
         var Stype={"水瓶":10,"雙魚":11,"牡羊":0,"金牛":1,"雙子":2,"巨蟹":3,"獅子":4,"處女":5,"天秤":6,"天蠍":7,"射手":8,"魔羯":9}
 		if(Stype.hasOwnProperty(msg)){
-            console.log(getDaliyLucky(msg,Stype))
+            console.log('Stype===',getDaliyLucky(msg,Stype))
         }
 		
 
