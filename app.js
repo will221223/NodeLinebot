@@ -55,12 +55,12 @@ const bot = linebot({
 });
 //因firebase.once('value')是非同步事件，需要使用Promise來接
 //判斷DB是否已有關鍵字
-function checkDB(msg,userId){
+function checkDB(msg,userId,groupId){
     var DBmsg
     return new Promise((resolve, reject) => {
       lineMsgDB.once('value').then(function(data){
               data.forEach(function(datalist){
-                if(datalist.val().keyword == msg){
+                if(datalist.val().keyword == msg && datalist.val().groupId == groupId){
                     DBmsg = datalist.val().message
                     resolve(DBmsg)
                     return DBmsg
@@ -76,10 +76,7 @@ function checkDouble(groupId,keyword){
     return new Promise((resolve, reject) => {
         lineMsgDB.once('value').then(function(data){
               data.forEach(function(datalist){
-                  console.log('DB的groupId==',datalist.val().groupId)
-                  console.log('傳來的 groupId ==', groupId)
-                  console.log(datalist.val().keyword == keyword && datalist.val().groupId == groupId)
-                if(datalist.val().keyword == keyword && datalist.val().groupId == groupId){
+                if(datalist.val().keyword == keyword ){
                     haslearned = true
                     reject(haslearned)
                     return haslearned
@@ -183,10 +180,10 @@ async function queryWeather(msg){
                 } 
 }
 
-async function judgeLearnOrNot(msg,userId){
+async function judgeLearnOrNot(msg,userId,groupId){
 // 判斷有沒有學過關鍵字
 try{
-    return await checkDB(msg)
+    return await checkDB(msg,userId,groupId)
     }catch(reject){
         try{
             return await echo(msg,userId)
