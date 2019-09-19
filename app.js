@@ -60,6 +60,9 @@ function checkDB(msg,userId,groupId){
     return new Promise((resolve, reject) => {
       lineMsgDB.once('value').then(function(data){
               data.forEach(function(datalist){
+                console.log('DB的groupId==',datalist.val().groupId)
+                console.log('傳來的 groupId ==', groupId)
+                console.log(datalist.val().groupId == groupId)
                 if(datalist.val().keyword == msg && datalist.val().groupId == groupId){
                     DBmsg = datalist.val().message
                     resolve(DBmsg)
