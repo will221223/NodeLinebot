@@ -76,7 +76,7 @@ function checkDouble(groupId,keyword){
     return new Promise((resolve, reject) => {
         lineMsgDB.once('value').then(function(data){
               data.forEach(function(datalist){
-                if(datalist.val().keyword == keyword && groupId== groupId){
+                if(datalist.val().keyword == keyword && datalist.val().groupId== groupId){
                     haslearned = true
                     reject(haslearned)
                     return haslearned
