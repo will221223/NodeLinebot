@@ -76,7 +76,8 @@ function checkDouble(groupId,keyword){
     return new Promise((resolve, reject) => {
         lineMsgDB.once('value').then(function(data){
               data.forEach(function(datalist){
-                if(datalist.val().keyword == keyword && datalist.val().groupId== groupId){
+                if(datalist.val().keyword == keyword && datalist.val().groupId == groupId){
+                    console.log(groupId)
                     haslearned = true
                     reject(haslearned)
                     return haslearned
@@ -143,6 +144,9 @@ function checkReply(keyword){
 }
 
 async function judgement(msg,userId,groupId){
+    if(!groupId){
+        groupId = userId
+    }
     lineMsgReceivedDB.push({userId:userId,received:msg})
     switch (msg.substr(0,4)){
         case ('學說話;'):{
