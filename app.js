@@ -143,7 +143,7 @@ function checkReply(keyword){
     })
 }
 
-function leanKeywordSpeak(msg,userId,groupId){
+async function leanKeywordSpeak(msg,userId,groupId){
     if(!groupId){
         groupId = ''
     }
@@ -169,7 +169,7 @@ function leanKeywordSpeak(msg,userId,groupId){
         }
 }
 
-function queryWeather(msg){
+async function queryWeather(msg){
     let semicolon_index = msg.indexOf(';')
             let SiteName
                 if(semicolon_index == -1){
@@ -184,7 +184,7 @@ function queryWeather(msg){
                 } 
 }
 
-function judgeLearnOrNot(msg,userId){
+async function judgeLearnOrNot(msg,userId){
 // 判斷有沒有學過關鍵字
 try{
     return await checkDB(msg)
