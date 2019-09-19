@@ -17,7 +17,7 @@ const opts = {
 };
  
 //查天氣
-function queryWeather(SiteName){
+function getWeather(SiteName){
     return new Promise((resolve, reject) => {
     rp(opts).then(function (repos) {
     let data;
@@ -143,37 +143,34 @@ function checkReply(keyword){
     })
 }
 
-async function judgement(msg,userId,groupId){
+function leanKeywordSpeak(msg,userId,groupId){
     if(!groupId){
-        groupId = userId
+        groupId = ''
     }
-    lineMsgReceivedDB.push({userId:userId,received:msg})
-    switch (msg.substr(0,4)){
-        case ('學說話;'):{
-            let received_text  = msg.slice(4)
-            let semicolon_index = received_text.indexOf(';')
-                if(semicolon_index == -1){
-                    lineMsgReplyDB.push({userId:userId,reply:'是不是沒有加分號;咧？汪！'})
-                    return '是不是沒有加分號;咧？汪！'
-                }
-            let keyword = received_text.substr(0,semicolon_index)
-            let message = received_text.slice(semicolon_index+1)
-            
-            msg= 'keyword=' + keyword + ', message='+message
-            // 判斷有沒有學過
-            try{
-                await checkDouble(groupId,keyword)
-                lineMsgDB.push({groupId:groupId,keyword:keyword,message:message})
-                lineMsgReplyDB.push({groupId:groupId,userId:userId,reply:'我學會啦～'})
-                return '我學會啦～' 
-            }catch(reject){
-                lineMsgReplyDB.push({groupId:groupId,userId:userId,reply:'這句我學過了啦！'})
-                    return '這句我學過了啦！'
-                }
+    let received_text  = msg.slice(4)
+    let semicolon_index = received_text.indexOf(';')
+        if(semicolon_index == -1){
+            lineMsgReplyDB.push({userId:userId,reply:'是不是沒有加分號;咧？汪！'})
+            return '是不是沒有加分號;咧？汪！'
         }
-        break;
-        case ('查空氣;'):{
-            let semicolon_index = msg.indexOf(';')
+    let keyword = received_text.substr(0,semicolon_index)
+    let message = received_text.slice(semicolon_index+1)
+    
+    msg= 'keyword=' + keyword + ', message='+message
+    // 判斷有沒有學過
+    try{
+        await checkDouble(groupId,keyword)
+        lineMsgDB.push({groupId:groupId,keyword:keyword,message:message})
+        lineMsgReplyDB.push({groupId:groupId,userId:userId,reply:'我學會啦～'})
+        return '我學會啦～' 
+    }catch(reject){
+        lineMsgReplyDB.push({groupId:groupId,userId:userId,reply:'這句我學過了啦！'})
+            return '這句我學過了啦！'
+        }
+}
+
+function queryWeather(msg){
+    let semicolon_index = msg.indexOf(';')
             let SiteName
                 if(semicolon_index == -1){
                     return '是不是沒有加分號;咧？汪！'
@@ -181,10 +178,35 @@ async function judgement(msg,userId,groupId){
                      SiteName  = msg.slice(4)
                 }
             try{
-                return queryWeather(SiteName)
+                return getWeather(SiteName)
                 }catch(reject){
                  return reject
                 } 
+}
+
+function judgeLearnOrNot(msg,userId){
+// 判斷有沒有學過關鍵字
+try{
+    return await checkDB(msg)
+    }catch(reject){
+        try{
+            return await echo(msg,userId)
+            }catch(reject){
+                lineMsgReceivedDB.push({userId:userId,received:reject})
+                return ''
+            }
+    }
+}
+
+async function judgement(msg,userId,groupId){
+    lineMsgReceivedDB.push({userId:userId,received:msg})
+    switch (msg.substr(0,4)){
+        case ('學說話;'):{
+            leanKeywordSpeak(msg,userId,groupId)
+        }
+        break;
+        case ('查空氣;'):{
+            queryWeather(msg)
         }
         break;
 
@@ -194,21 +216,9 @@ async function judgement(msg,userId,groupId){
         }
         break;
                
-        // else {
-        default:{
-            // 判斷有沒有學過關鍵字
-            try{
-            return await checkDB(msg)
-            }catch(reject){
-                try{
-                    return await echo(msg,userId)
-                    }catch(reject){
-                        lineMsgReceivedDB.push({userId:userId,received:reject})
-                        return ''
-                    }
-            }
-        }
-        break;
+        default:
+            judgeLearnOrNot(msg,userId)
+           break;
     }
 }
 
