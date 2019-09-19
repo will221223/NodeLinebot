@@ -230,8 +230,35 @@ async function judgement(msg,userId,groupId){
     }
 }
 
-//文字回覆部份
-function replyWithText(event){
+function getDaliyLucky(msg){
+    {
+        var Today=new Date();
+        var Y=Today.getFullYear()
+            ,M=(parseInt(Today.getMonth())<10) ? "0"+(Today.getMonth()+1) : (Today.getMonth()+1)
+            ,D=(parseInt(Today.getDate())<10) ? "0"+Today.getDate() : Today.getDate()
+        let fullDate= Y+"-"+M+"-"+D
+        var url=`http://astro.click108.com.tw/daily_${Stype[msg]}.php?iAcDay=${fullDate}&iAstro=${Stype[event.message.text]}`
+        request(url, (err, res, body) => {
+        // 把 body 放進 cheerio 準備分析
+        const $ = cheerio.load(body)
+        let weathers = []
+        $('.TODAY_CONTENT').each(function(i, elem) {
+            weathers.push($(this).text().split('\n'))
+        })
+        weathers = weathers.map(weather => ({
+            intro:weather[1].trim(),
+            all: weather[2].trim(),//.substring(2).split(' ')[0],
+            love: weather[3].trim(),//.substring(2),
+            work: weather[5].trim(),//.substring(2),
+            money: weather[6].trim(),//.substring(2),
+          }))  
+          var AllString=weathers[0].intro+"\r\n"+weathers[0].all+"\r\n"+weathers[0].love+"\r\n"+weathers[0].work+"\r\n"+weathers[0].money;
+          return AllString
+        })
+    }
+}
+
+bot.on('message',async function(event) {
     if (event.message.text !== undefined) {
         
         let msg = event.message.text
@@ -239,43 +266,17 @@ function replyWithText(event){
         let groupId = event.source.groupId || 'no group Id'
 
         var Stype={"水瓶":10,"雙魚":11,"牡羊":0,"金牛":1,"雙子":2,"巨蟹":3,"獅子":4,"處女":5,"天秤":6,"天蠍":7,"射手":8,"魔羯":9}
-		if(Stype.hasOwnProperty(msg))
-		{
-			var Today=new Date();
-			var Y=Today.getFullYear()
-				,M=(parseInt(Today.getMonth())<10) ? "0"+(Today.getMonth()+1) : (Today.getMonth()+1)
-				,D=(parseInt(Today.getDate())<10) ? "0"+Today.getDate() : Today.getDate()
-			let fullDate= Y+"-"+M+"-"+D
-			var url=`http://astro.click108.com.tw/daily_${Stype[msg]}.php?iAcDay=${fullDate}&iAstro=${Stype[event.message.text]}`
-			request(url, (err, res, body) => {
-			// 把 body 放進 cheerio 準備分析
-			const $ = cheerio.load(body)
-			let weathers = []
-			$('.TODAY_CONTENT').each(function(i, elem) {
-				weathers.push($(this).text().split('\n'))
-			})
-			weathers = weathers.map(weather => ({
-				intro:weather[1].trim(),
-				all: weather[2].trim(),//.substring(2).split(' ')[0],
-				love: weather[3].trim(),//.substring(2),
-				work: weather[5].trim(),//.substring(2),
-				money: weather[6].trim(),//.substring(2),
-			  }))  
-			  var AllString=weathers[0].intro+"\r\n"+weathers[0].all+"\r\n"+weathers[0].love+"\r\n"+weathers[0].work+"\r\n"+weathers[0].money;
-			  return event.reply(AllString)
-			})
-		}
+		if(Stype.hasOwnProperty(msg)){
+            console.log(getDaliyLucky(msg))
+        }
+		
 
         event.reply(await judgement(msg,userId,groupId)).then(function(data) {
             console.log('reply success')
         }).catch(function(error) {
             console.log('錯誤產生，錯誤碼：'+error);
-        });
+        })
     }
-}
-
-bot.on('message',async function(event) {
-    replyWithText(event)
 
     bot.on('join', function (event) {
         event.reply('輸入help獲得相關指令');
