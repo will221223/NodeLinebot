@@ -272,7 +272,7 @@ bot.on('message',async function(event) {
         let groupId = event.source.groupId || 'no group Id'
 
 
-        console.log('lucky==',lucky(event,msg))
+        // console.log('lucky==',lucky(event,msg))
 
         event.reply(await judgement(msg,userId,groupId)).then(function(data) {
             console.log('reply success')
