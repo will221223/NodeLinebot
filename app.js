@@ -271,9 +271,10 @@ bot.on('message',async function(event) {
         let userId = event.source.userId
         let groupId = event.source.groupId || 'no group Id'
 
+        //查星座
+        lucky(event,msg)
 
-        // console.log('lucky==',lucky(event,msg))
-
+        //依照收到的訊息判斷回覆
         event.reply(await judgement(msg,userId,groupId)).then(function(data) {
             console.log('reply success')
         }).catch(function(error) {
