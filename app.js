@@ -114,6 +114,7 @@ async function echo(keyword,userId,groupId){
         }
 }
 
+//確認最近5筆收到的訊息是否重複
 function checkReceived(keyword,groupId){
     var countReceived = 0
     var hadRecieved = false
@@ -134,6 +135,7 @@ function checkReceived(keyword,groupId){
     })
 }
 
+//確認機器人上一句回應是否重複
 function checkReply(keyword,groupId){
     var hadNoReply = true
     return new Promise((resolve, reject) => {
@@ -232,13 +234,9 @@ async function judgement(msg,userId,groupId){
     }
 }
 
-bot.on('message',async function(event) {
-    if (event.message.text !== undefined) {
-        let msg = event.message.text
-        let userId = event.source.userId
-        let groupId = event.source.groupId || 'no group Id'
+function lucky(event,msg){
 
-        var Stype={"水瓶":10,"雙魚":11,"牡羊":0,"金牛":1,"雙子":2,"巨蟹":3,"獅子":4,"處女":5,"天秤":6,"天蠍":7,"射手":8,"魔羯":9}
+    var Stype={"水瓶":10,"雙魚":11,"牡羊":0,"金牛":1,"雙子":2,"巨蟹":3,"獅子":4,"處女":5,"天秤":6,"天蠍":7,"射手":8,"魔羯":9}
 		if(Stype.hasOwnProperty(msg))
 		{
 			var Today=new Date();
@@ -265,6 +263,16 @@ bot.on('message',async function(event) {
 			  return event.reply(AllString)
 			})
 		}
+}
+
+bot.on('message',async function(event) {
+    if (event.message.text !== undefined) {
+        let msg = event.message.text
+        let userId = event.source.userId
+        let groupId = event.source.groupId || 'no group Id'
+
+
+        console.log('lucky==',lucky(event,msg))
 
         event.reply(await judgement(msg,userId,groupId)).then(function(data) {
             console.log('reply success')
